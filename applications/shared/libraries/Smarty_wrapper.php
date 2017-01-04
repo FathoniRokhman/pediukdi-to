@@ -1,7 +1,7 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require_once 'vendor/smarty/smarty/libs/Smarty.class.php';
+require_once APPPATH . '../../vendor/smarty/smarty/libs/Smarty.class.php';
 
 class Smarty_wrapper extends Smarty 
 { 
