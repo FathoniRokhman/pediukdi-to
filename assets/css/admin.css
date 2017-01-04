@@ -1,0 +1,19 @@
+/* Agar Navbar Fixed di top */
+body {
+  padding-top: 50px;
+}
+
+/* Geser judul agak keatas */
+.main .page-header {
+	margin-top: 10px;
+}
+
+.table-extra-condensed thead tr th,
+.table-extra-condensed tbody tr td
+{
+	padding: 5px;
+}
+
+.table-extra-condensed tbody tr td.isi-soal p {
+	margin-bottom: 0;
+}

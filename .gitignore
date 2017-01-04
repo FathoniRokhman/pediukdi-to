@@ -1,0 +1,27 @@
+# Composer
+composer.phar
+/vendor/
+
+# NetBeans Project
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Uploads
+uploads/*
+!uploads/index.html
+
+# Smarty Compiled
+/views_compiled/
+!/views_compiled/index.html
+
+# Database Dump
+/db-dump/
+
+# Other exclude
+Resources/
+bs-design-view/
+piluku-theme/
