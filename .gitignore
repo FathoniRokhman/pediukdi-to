@@ -24,4 +24,6 @@ uploads/*
 # Other exclude
 Resources/
 bs-design-view/
-piluku-theme/
+piluku_theme/
+adminer-4.2.5.php
+adminer.css
