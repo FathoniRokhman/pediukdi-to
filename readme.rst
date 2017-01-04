@@ -7,10 +7,17 @@ pediukdi (http://www.pediukdi.com).
 
 
 **************************
+Features Roadmap
+**************************
+
+- Tambah fitur untuk video elearning
+
+**************************
 Changelog and New Features
 **************************
 
-Versi Perdana :
+Versi awal :
+
 - Manajemen Soal
 - Soal Uji coba
 - Upload gambar pada soal
