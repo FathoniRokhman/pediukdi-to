@@ -46,6 +46,7 @@
 					
 					<ul class="nav navbar-nav">
 						<li><a href="{site_url('home')}">Home</a></li>
+						<li><a href="{site_url('home/elearning')}">E-Learning</a></li>
 						<li><a href="{site_url('home/jadwal_test')}">Jadwal Tes</a></li>
 						<li><a href="{site_url('test/test_result')}">Hasil Tes</a></li>
 					</ul>

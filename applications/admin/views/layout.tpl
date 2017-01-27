@@ -67,6 +67,9 @@
 								<li><a href="{site_url('hasil')}">Hasil Tes</a></li>
 							</ul>
 						</li>
+						<li>
+							<li><a href="{site_url('elearning')}">Manajemen E-learning</a></li>
+						</li>
 					</ul>
 					
 					<ul class="nav navbar-nav navbar-right">
@@ -105,6 +108,12 @@
 						<ul class="nav nav-pills nav-stacked">
 							<li><a href="{site_url('jadwal')}">Jadwal Tes</a></li>
 							<li><a href="{site_url('hasil')}">Hasil Tes</a></li>
+						</ul>
+						<h5><i class="glyphicon glyphicon-user"></i>
+							<small><b>MANAJEMEN E-Learning</b></small>
+						</h5>
+						<ul class="nav nav-pills nav-stacked">
+							<li><a href="{site_url('elearning')}">Video</a></li>
 						</ul>
 					</div>
 				</div>
