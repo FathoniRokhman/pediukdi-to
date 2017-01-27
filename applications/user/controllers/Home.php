@@ -5,6 +5,7 @@
  * @property Pembayaran_model $pembayaran_model
  * @property Jadwal_model $jadwal_model Description
  * @property User_model $user_model
+ * @property Elearning_model $elearning_model
  */
 class Home extends USER_Controller
 {
@@ -57,7 +58,7 @@ class Home extends USER_Controller
 	}
 
 	function elearning(){
-
+		
 		// get list video
 		$user = $this->session->userdata('user');
 		$isPremiumFiture = $this->elearning_model->isPremiumFiture($user->id_user) > 0 ? 1 : 0;
@@ -102,7 +103,7 @@ class Home extends USER_Controller
 		$this->smarty->assign('linkPaging', $linkPaging);
 		$this->smarty->assign('list_video', $data_video);
 		$this->smarty->assign('isAllowVideo', $isPremiumFiture);
-		$this->smarty->display();
+		$this->smarty->display('home/elearning.tpl');
 	}
 
 }
