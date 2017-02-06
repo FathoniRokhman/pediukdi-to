@@ -22,9 +22,16 @@
 				clip: auto;
 			}
 		</style>
+        {if $smarty.const.ENVIRONMENT == 'development'}
+		<script type='text/javascript' src='{base_url()}assets/js/jquery-1.12.4.min.js'></script>
+		<script type='text/javascript' src='{base_url()}assets/js/jquery-migrate.min.js'></script>
+		<script type='text/javascript' src='{base_url()}assets/js/bootstrap.min.js'></script>
+        {/if}
+        {if $smarty.const.ENVIRONMENT == 'production'}
 		<script type='text/javascript' src='http://www.pediukdi.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
 		<script type='text/javascript' src='http://www.pediukdi.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
 		<script type='text/javascript' src='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/bootstrap/js/bootstrap.min.js?ver=3.3.6'></script>
+        {/if}
 		{block name="head"}{/block}
 	</head>
 	<body class="home page-template page-template-page-fullpostsnoheader page-template-page-fullpostsnoheader-php page page-id-2 logged-in admin-bar no-customize-support">

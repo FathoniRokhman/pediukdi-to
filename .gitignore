@@ -15,8 +15,14 @@ uploads/*
 !uploads/index.html
 
 # Smarty Compiled
-/views_compiled/
-!/views_compiled/index.html
+applications/admin/views_compiled/
+applications/user/views_compiled/
+!/applications/admin/views_compiled/index.html
+!/applications/user/views_compiled/index.html
+
+# CodeIgniter Log
+applications/admin/logs/
+applications/user/logs/
 
 # Database Dump
 /db-dump/

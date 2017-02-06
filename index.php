@@ -176,17 +176,18 @@ switch (ENVIRONMENT)
  *
  * Un-comment the $assign_to_config array below to use this feature
  */
-	if ($_SERVER['SERVER_NAME'] == 'localhost')
+	if (ENVIRONMENT == 'development')
 	{
 		// App URL
-		$assign_to_config['base_url']		= 'http://localhost/ci-cbt-yufi/';
+		$assign_to_config['base_url']		= 'http://tryout.pediukdi.com.dev/';
 		
 		// Other App URL
-		$assign_to_config['app_site_url']	= 'http://localhost/ci-cbt-yufi/';
-		$assign_to_config['app_admin_url']	= 'http://localhost/ci-cbt-yufi/admin/';
-		$assign_to_config['app_user_url']	= 'http://localhost/ci-cbt-yufi/user/';
+		$assign_to_config['app_site_url']	= 'http://tryout.pediukdi.com.dev/';
+		$assign_to_config['app_admin_url']	= 'http://tryout.pediukdi.com.dev/admin/';
+		$assign_to_config['app_user_url']	= 'http://tryout.pediukdi.com.dev/user/';
 	}
-	else if ($_SERVER['SERVER_NAME'] == 'tryout.pediukdi.com')
+	
+	if (ENVIRONMENT == 'production')
 	{
 		// App URL
 		$assign_to_config['base_url']		= 'http://tryout.pediukdi.com/';
@@ -196,13 +197,13 @@ switch (ENVIRONMENT)
 		$assign_to_config['app_admin_url']	= 'http://tryout.pediukdi.com/admin/';
 		$assign_to_config['app_user_url']	= 'http://tryout.pediukdi.com/user/';
 	}
-	else if ($_SERVER['SERVER_NAME'] == 'pediukdi.com')  // non-WWW --> redirect
+	
+	if ($_SERVER['SERVER_NAME'] == 'pediukdi.com')  // non-WWW --> redirect
 	{
 		header("HTTP/1.1 301 Moved Permanently"); 
 		header("Location: http://www.pediukdi.com/");
 		exit();
 	}
-
 
 
 // --------------------------------------------------------------------

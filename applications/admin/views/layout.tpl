@@ -8,17 +8,20 @@
 
 		<title>Administrator PEDI-UKDI</title>
 
-		{if $smarty.server.SERVER_NAME == 'www.pediukdi.com'}
+		{if $smarty.const.ENVIRONMENT == 'production'}
 		<!-- Bootstrap core CSS -->
 		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-HzUaiJdCTIY/RL2vDPRGdEQHHahjzwoJJzGUkYjHVzTwXFQ2QN/nVgX7tzoMW3Ov" crossorigin="anonymous">
-		{else}
-		<!-- Bootstrap core CSS -->
-		<link href="{base_url('../assets/css/bootstrap-yeti.min.css')}" rel="stylesheet">
 		{/if}
+        
+        {if $smarty.const.ENVIRONMENT == 'development'}
+		<!-- Bootstrap core CSS -->
+		<link href="{$ci->config->item('app_site_url')}assets/css/bootstrap-yeti.min.css" rel="stylesheet">
+		{/if}
+        
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-		<link href="{base_url('../assets/css/ie10-viewport-bug-workaround.css')}" rel="stylesheet">
+		<link href="{$ci->config->item('app_site_url')}assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 		<!-- Custom styles for this template -->
-		<link href="{base_url('../assets/css/admin.css')}" rel="stylesheet">
+		<link href="{$ci->config->item('app_site_url')}assets/css/admin.css" rel="stylesheet">
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -93,7 +96,6 @@
 							<li><a href="{site_url('form-soal')}">Master Lembar Soal</a></li>
 							<li><a href="{site_url('soal')}">Editor Soal</a></li>
 							<li><a href="{site_url('kelompok-soal')}">Master Kelompok Soal</a></li>
-							<li><a href="#"></a></li>
 						</ul>
 						<h5><i class="glyphicon glyphicon-user"></i>
 							<small><b>MANAJEMEN USER</b></small>
