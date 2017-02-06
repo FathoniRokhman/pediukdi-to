@@ -3,7 +3,7 @@
 
 <div class="container">
 
-    {if $isAllowVideo eq 1}
+    {if $isAllowVideo == 1}
 	
     <div class="row">
         <h1 class="page-header">Daftar Video E-Learning</h1>
@@ -11,7 +11,7 @@
         <div class="col-lg-4">
             <div class="thumbnail">
                 <div class="embed-responsive embed-responsive-16by9">
-					<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/KQiiLe9SZNM"></iframe>
+					<iframe class="embed-responsive-item" src="{$data.linkVideo}"></iframe>
 				</div>
                 <div class="caption">
                     <h3>{$data.judulVideo}</h3>

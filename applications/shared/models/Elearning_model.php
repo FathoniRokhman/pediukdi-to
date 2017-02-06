@@ -9,9 +9,9 @@
 class Elearning_model extends CI_Model{
 
 	function listVideo($limitation,$offset){
-		if($offset == null && $limitation == null) return $this->db->get('elearning_video')->result_array(); exit();
+		if($offset == null) $offset = 0;
 		return $this->db->limit($limitation,$offset)->get('elearning_video')->result_array();
-		//return $this->query->result_array();
+		#return $this->query->result_array();
 	}
 
 	function listVideoA($limitation,$offset){
