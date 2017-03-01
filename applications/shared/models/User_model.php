@@ -12,6 +12,11 @@ class User_model extends CI_Model
 		return $this->db->get('user')->result();
 	}
 	
+	function list_user_by_id(Array $id_user)
+	{
+		return $this->db->where_in('id_user', $id_user)->get('user')->result();
+	}
+	
 	function get_user($id_user)
 	{
 		return $this->db->get_where('user', array('id_user' => $id_user))->row();

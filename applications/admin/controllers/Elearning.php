@@ -79,6 +79,50 @@ class Elearning extends ADMIN_Controller{
 			redirect('elearning/index');
 		}
 	}
+
+	function userpremium(){
+
+		$dt_premium_user = $this->db->join('user u','u.id_user = pf.idUser')->get('premium_fiture pf')->result_array();
+		$this->smarty->assign('dt_premium_user',$dt_premium_user);
+		$this->smarty->assign('sekarang',date('Y-m-d'));
+		$this->smarty->display('elearning/userpremium.tpl');
+	}
+
+	function adduserpremium(){
+
+
+		$this->form_validation->set_error_delimiters('<p style="margin:0 0 0 0; color:red; font-style:italic;">', '</p>');
+		if ($this->input->method() == 'post'){
+
+			$this->form_validation->set_rules('idUser','User','required');
+			if($this->form_validation->run() == true){
+			
+				$dataInsert['idUser'] = $this->input->post('idUser');
+				$dataInsert['paketPremium'] = '1';
+				$dataInsert['activatedDate'] = date('2025-01-01');
+				$this->db->insert('premium_fiture',$dataInsert);
+				$this->session->set_flashdata('inserted', TRUE);
+				redirect('elearning/userpremium');
+			}			
+		}
+
+		$this->smarty->assign('is_user','1');
+		$sql = "select u.id_user,nama,email from user u where u.id_user not in (select idUser from premium_fiture) order by nama";
+		if($this->db->query($sql)->num_rows() == 0){
+			$this->smarty->assign('is_user','0');
+		}
+
+		$dt_user = $this->db->query($sql)->result_array();
+		$this->smarty->assign('dt_user',$dt_user);
+		$this->smarty->display('elearning/adduserpremium.tpl');
+	}
+
+	function deleteuserpremium($idUser){
+		if ($this->input->method() == 'post'){
+			$this->db->where('idUser',$idUser)->delete('premium_fiture');
+			redirect('elearning/userpremium');
+		}
+	}
 	
 
 }

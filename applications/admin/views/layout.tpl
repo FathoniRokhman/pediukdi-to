@@ -61,6 +61,7 @@
 							<ul class="dropdown-menu">
 								<li><a href="{site_url('user')}">Daftar User</a></li>
 								<li><a href="{site_url('pembayaran')}">Pembayaran</a></li>
+								<li><a href="{site_url('pembayaran/add-multi')}">Tambah Pembayaran Multi</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -71,7 +72,12 @@
 							</ul>
 						</li>
 						<li>
-							<li><a href="{site_url('elearning')}">Manajemen E-learning</a></li>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manajemen E-learning <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="{site_url('elearning')}">Video </a></li>
+								<li><a href="{site_url('elearning/userpremium')}">Premium User</a></li>
+							</ul>
+							
 						</li>
 					</ul>
 					
@@ -103,6 +109,7 @@
 						<ul class="nav nav-pills nav-stacked">
 							<li><a href="{site_url('user')}">Daftar User</a></li>
 							<li><a href="{site_url('pembayaran')}">Pembayaran</a></li>
+							<li><a href="{site_url('pembayaran/add-multi')}">Tambah Pembayaran Multi</a></li>
 						</ul>
 						<h5><i class="glyphicon glyphicon-user"></i>
 							<small><b>MANAJEMEN TES</b></small>
@@ -116,6 +123,7 @@
 						</h5>
 						<ul class="nav nav-pills nav-stacked">
 							<li><a href="{site_url('elearning')}">Video</a></li>
+							<li><a href="{site_url('elearning/userpremium')}">Premium User</a></li>
 						</ul>
 					</div>
 				</div>
