@@ -186,7 +186,7 @@ class Auth extends USER_Controller
 	
 	function test_send_email()
 	{
-		$this->load->library('email');  // configuration file : applications/site/config/email.php
+		$this->load->library('email');  // configuration file : applications/user/config/email.php
 		
 		$this->email->from('no-reply@pediukdi.com', 'PEDIUKDI.com Notifikasi');
 		$this->email->to('m.fathoni@mail.com');
@@ -200,7 +200,7 @@ class Auth extends USER_Controller
 		
 		$body = $this->smarty->fetch("email/registration.tpl");
 		$this->email->message($body);
-		
+			
 		$result = $this->email->send();
 		
 		if ($result)

@@ -62,7 +62,7 @@ class Jadwal_model extends CI_Model
 			->from('jadwal_test')
 			->where('tanggal_test <=', date('Y-m-d H:i:s'))
 			->where('email_sent IS NULL', null, TRUE)
-			->order_by('tanggal_test', 'DESC')  // terbaru first
+			->order_by('tanggal_test', 'ASC')  // terlama first
 			->get()
 			->result();
 	}

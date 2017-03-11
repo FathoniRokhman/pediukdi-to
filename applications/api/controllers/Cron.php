@@ -46,12 +46,15 @@ class Cron extends CI_Controller
 			if (count($peserta_set) > 0)
 			{
 				// Jadwal TEST
-				echo "Pengiriman email hasil test untuk jadwal : " . $jadwal_test->tanggal_test . "\r\n";
+				echo "Pengiriman email hasil test untuk jadwal : " . $jadwal_test->tanggal_test . " Jumlah peserta ".count($peserta_set)."\r\n";
 				
 				// Data hasil test
 				$data_set = $this->report_model->detail_peserta_per_jadwal($jadwal_test->id_jadwal_test);
 				$this->smarty->assignByRef('data_set', $data_set);
-
+				
+				// Urutan kirim
+				$i = 1;
+				
 				foreach ($peserta_set as $user)
 				{
 					// Masukkan informasi user
@@ -76,12 +79,14 @@ class Cron extends CI_Controller
 						
 						$this->user_model->update_sent_mail($user->id_test_session);
 						
-						echo "Kirim {$email} Berhasil\r\n";
+						echo "{$i}. Kirim {$email} Berhasil\r\n";
 					}
 					else
 					{
-						echo "Kirim {$email} Gagal\r\n";
+						echo "{$i}. Kirim {$email} Gagal\r\n";
 					}
+					
+					$i++;
 				}
 			}
 			
