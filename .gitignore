@@ -32,5 +32,5 @@ applications/user/logs/
 Resources/
 bs-design-view/
 piluku_theme/
-adminer-4.2.5.php
+adminer-*.php
 adminer.css
