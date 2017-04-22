@@ -14,15 +14,14 @@ nbdist/
 uploads/*
 !uploads/index.html
 
-# Smarty Compiled
+# CodeIgniter Exclude
 applications/admin/views_compiled/
 applications/user/views_compiled/
 !/applications/admin/views_compiled/index.html
 !/applications/user/views_compiled/index.html
-
-# CodeIgniter Log
 applications/admin/logs/
 applications/user/logs/
+applications/shared/config/database.php
 
 # Database Dump
 /db-dump/
