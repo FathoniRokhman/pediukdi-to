@@ -48,14 +48,6 @@
 	<script src="{site_url('../assets/js/dataTables.bootstrap.min.js')}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			{if count($data_set) > 0}
-			$('#tableUser').DataTable({
-				columnDefs: [
-					{ orderable: false, targets: [0, -1] }
-				]
-			});
-			{/if}
-			$('#tableUser').show('fast');
 			/* Coloring Script */
 			$('input[type=checkbox]').on('change', function() {
 				if ($(this).is(':checked'))
@@ -63,6 +55,16 @@
 				else
 					$(this).parent().parent().removeClass('success');
 			});
+			
+			{if count($data_set) > 0}
+			$('#tableUser').DataTable({
+				columnDefs: [
+					{ orderable: false, targets: [0, -1] }
+				]
+			});
+			{/if}
+				
+			$('#tableUser').show('fast');
 		});
 	</script>
 {/block}

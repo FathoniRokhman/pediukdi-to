@@ -51,13 +51,7 @@
 	<script src="{site_url('../assets/js/dataTables.bootstrap.min.js')}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			{if count($data_set) > 0}
-			$('#tablePembayaran').DataTable({
-				bLengthChange: false,
-				ordering: false
-			});
-			{/if}
-				/* Coloring Script */
+			/* Coloring Script */
 			$('input[type=radio]').on('change', function() {
 				/* clear other colored */
 				$('tr').removeClass('success');
@@ -65,6 +59,13 @@
 				if ($(this).is(':checked'))
 					$(this).parent().parent().addClass('success');
 			});
+			
+			{if count($data_set) > 0}
+			$('#tablePembayaran').DataTable({
+				bLengthChange: false,
+				ordering: false
+			});
+			{/if}
 		});
 	</script>
 {/block}
