@@ -1,13 +1,13 @@
 {extends file='../../layout.tpl'}
 {block name='head'}
-	<link href="{site_url('../assets/css/dataTables.bootstrap.min.css')}" rel="stylesheet" />
+	<link href="{site_url('../assets/css/datatables.min.css')}" rel="stylesheet" />
 {/block}
 {block name='content'}
 	<h2 class="page-header">Tambah Pembayaran Multi</h2>
 	<h3>Pilih Peserta untuk jadwal tes : {$jadwal_test->tanggal_test|date_format:"%d %B %Y"}</h3>
 	<form action="{site_url('pembayaran/add-multi/cek-akhir')}" method="post">
 		<input type="hidden" name="ijt" value="{$jadwal_test->id_jadwal_test}" />
-		<table id="tableUser" class="table table-bordered table-condensed" style="display: none">
+		<table id="table" class="table table-bordered table-condensed" style="display: none">
 			<thead>
 				<tr>
 					<th></th>
@@ -18,8 +18,8 @@
 			</thead>
 			<tbody>
 				{foreach $data_set as $data}
-					<tr>
-						<td><input type="checkbox" name="iu[]" {* iu = id_user *} value="{$data->id_user}" /></td>
+					<tr id="iu{$data->id_user}">
+						<td></td>
 						<td>{$data->nama}</td>
 						<td>{$data->institusi}</td>
 						<td>{$data->email}
@@ -44,27 +44,29 @@
 	</form>
 {/block}
 {block name='footer-script'}
-	<script src="{site_url('../assets/js/jquery.dataTables.min.js')}"></script>
-	<script src="{site_url('../assets/js/dataTables.bootstrap.min.js')}"></script>
+	<script src="{site_url('../assets/js/datatables.min.js')}"></script>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			/* Coloring Script */
-			$('input[type=checkbox]').on('change', function() {
-				if ($(this).is(':checked'))
-					$(this).parent().parent().addClass('success');
-				else
-					$(this).parent().parent().removeClass('success');
-			});
-			
-			{if count($data_set) > 0}
-			$('#tableUser').DataTable({
+		$(document).ready(function () {
+		{if count($data_set) > 0}
+			var table = $('#table').DataTable({
 				columnDefs: [
-					{ orderable: false, targets: [0, -1] }
-				]
+					{ targets: 0, className: 'select-checkbox', orderable: false }
+				],
+				select: { style: 'multi' }
 			});
-			{/if}
-				
-			$('#tableUser').show('fast');
+		{/if}
+
+			$('#table').show();
+
+			table
+				.on('select', function (e, dt, type, indexes) {
+					var id = dt.id().toString().replace('iu', '');
+					$('input[name="ijt"]').after('<input type="hidden" name="iu[]" value="'+id+'" />');
+				})
+				.on('deselect', function (e, dt, type, indexes) {
+					var id = dt.id().toString().replace('iu', '');
+					$('input[name="iu[]"][value="'+id+'"]').remove();
+				});
 		});
 	</script>
 {/block}

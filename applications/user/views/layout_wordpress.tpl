@@ -4,12 +4,22 @@
 		<title>PEDI-UKDI{block name='title'}{/block}</title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel='stylesheet' id='bootstrap-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/bootstrap/css/bootstrap.min.css?ver=3.3.6' type='text/css' media='all' />
-		<link rel='stylesheet' id='theme-base-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/css/theme-base.css?ver=20160323' type='text/css' media='all' />
-		<link rel='stylesheet' id='theme-flat-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/css/theme-flat.css?ver=20160323' type='text/css' media='all' />
-		<link rel='stylesheet' id='flat-bootstrap-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/style.css?ver=4.7' type='text/css' media='all' />
-		<link rel='stylesheet' id='child-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap-child/style.css?ver=4.7' type='text/css' media='all' />
-		<link rel='stylesheet' id='google_fonts-css'  href='//fonts.googleapis.com/css?family=Open+Sans:300,400,700' type='text/css' media='all' />
+		{if $smarty.const.ENVIRONMENT == 'development'}
+			<link rel='stylesheet' id='bootstrap-css'  href='{base_url('assets/wp-content/flat-bootstrap/css/bootstrap.min.css')}' type='text/css' media='all' />
+			<link rel='stylesheet' id='theme-base-css'  href='{base_url('assets/wp-content/flat-bootstrap/css/theme-base.css')}' type='text/css' media='all' />
+			<link rel='stylesheet' id='theme-flat-css'  href='{base_url('assets/wp-content/flat-bootstrap/css/theme-flat.css')}' type='text/css' media='all' />
+			<link rel='stylesheet' id='flat-bootstrap-css'  href='{base_url('assets/wp-content/flat-bootstrap/style.css')}' type='text/css' media='all' />
+			<link rel='stylesheet' id='child-css'  href='{base_url('assets/wp-content/flat-bootstrap-child/style.css')}' type='text/css' media='all' />
+			<link rel='stylesheet' id='google_fonts-css'  href='//fonts.googleapis.com/css?family=Open+Sans:300,400,700' type='text/css' media='all' />
+		{/if}
+		{if $smarty.const.ENVIRONMENT == 'production'}
+			<link rel='stylesheet' id='bootstrap-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/bootstrap/css/bootstrap.min.css?ver=3.3.6' type='text/css' media='all' />
+			<link rel='stylesheet' id='theme-base-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/css/theme-base.css?ver=20160323' type='text/css' media='all' />
+			<link rel='stylesheet' id='theme-flat-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/css/theme-flat.css?ver=20160323' type='text/css' media='all' />
+			<link rel='stylesheet' id='flat-bootstrap-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/style.css?ver=4.7' type='text/css' media='all' />
+			<link rel='stylesheet' id='child-css'  href='http://www.pediukdi.com/wp-content/themes/flat-bootstrap-child/style.css?ver=4.7' type='text/css' media='all' />
+			<link rel='stylesheet' id='google_fonts-css'  href='//fonts.googleapis.com/css?family=Open+Sans:300,400,700' type='text/css' media='all' />
+		{/if}
 		<style type="text/css">
 			/*.site-title,
 			.site-description { */
@@ -22,16 +32,6 @@
 				clip: auto;
 			}
 		</style>
-        {if $smarty.const.ENVIRONMENT == 'development'}
-		<script type='text/javascript' src='{base_url()}assets/js/jquery-1.12.4.min.js'></script>
-		<script type='text/javascript' src='{base_url()}assets/js/jquery-migrate.min.js'></script>
-		<script type='text/javascript' src='{base_url()}assets/js/bootstrap.min.js'></script>
-        {/if}
-        {if $smarty.const.ENVIRONMENT == 'production'}
-		<script type='text/javascript' src='http://www.pediukdi.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
-		<script type='text/javascript' src='http://www.pediukdi.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
-		<script type='text/javascript' src='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/bootstrap/js/bootstrap.min.js?ver=3.3.6'></script>
-        {/if}
 		{block name="head"}{/block}
 	</head>
 	<body class="home page-template page-template-page-fullpostsnoheader page-template-page-fullpostsnoheader-php page page-id-2 logged-in admin-bar no-customize-support">
@@ -77,6 +77,17 @@
 		</header>
 
 		{block name='content'}{/block}
-						
+		
+		{if $smarty.const.ENVIRONMENT == 'development'}
+		<script type='text/javascript' src='{base_url()}assets/js/jquery-1.12.4.min.js'></script>
+		<script type='text/javascript' src='{base_url()}assets/js/jquery-migrate.min.js'></script>
+		<script type='text/javascript' src='{base_url()}assets/js/bootstrap.min.js'></script>
+        {/if}
+        {if $smarty.const.ENVIRONMENT == 'production'}
+		<script type='text/javascript' src='http://www.pediukdi.com/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+		<script type='text/javascript' src='http://www.pediukdi.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+		<script type='text/javascript' src='http://www.pediukdi.com/wp-content/themes/flat-bootstrap/bootstrap/js/bootstrap.min.js?ver=3.3.6'></script>
+        {/if}
+		{block name='footer-script'}{/block}
 	</body>
 </html>

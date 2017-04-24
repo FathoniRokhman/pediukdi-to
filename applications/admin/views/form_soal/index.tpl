@@ -7,6 +7,7 @@
 			<tr>
 				<th width="20px">#</th>
 				<th>Nama Lembar Soal</th>
+				<th>Nilai Batas Lulus</th>
 				<th>Waktu Pengerjaan (Menit)</th>
 				<th width="180px">Aksi</th>
 			</tr>
@@ -16,10 +17,11 @@
 				<tr>
 					<td>{$data@index + 1}</td>
 					<td>{$data->nama_form}</td>
+					<td>{$data->nilai_kkm}</td>
 					<td>{$data->waktu_pengerjaan}</td>
 					<td>
-						<a href="{site_url('soal/index/')}{$data->id_form_soal}" class="btn btn-xs btn-primary">Editor Soal</a>
-						<a href="{site_url('form-soal/edit/')}{$data->id_form_soal}" class="btn btn-xs btn-success">Edit</a>
+						<a href="{site_url('soal')}?ifs={$data->id_form_soal}" class="text-primary">Edit Soal</a> |
+						<a href="{site_url('form-soal/edit/')}{$data->id_form_soal}" class="text-success">Edit Form</a> |
 						<a href="" class="text-danger" data-toggle="modal" data-target="#deleteModal" data-id="{$data->id_form_soal}"><strong>Hapus</strong></a>
 					</td>
 				</tr>

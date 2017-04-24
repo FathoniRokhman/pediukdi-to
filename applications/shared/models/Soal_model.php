@@ -22,6 +22,7 @@ class Soal_model extends CI_Model
 	{
 		$form_soal = new stdClass();
 		$form_soal->nama_form = $this->input->post('nama_form');
+		$form_soal->nilai_kkm = $this->input->post('nilai_kkm');
 		$form_soal->waktu_pengerjaan = $this->input->post('waktu_pengerjaan');
 		$form_soal->created = date('Y-m-d H:i:s');
 
@@ -32,6 +33,7 @@ class Soal_model extends CI_Model
 	{
 		$form_soal = new stdClass();
 		$form_soal->nama_form = $this->input->post('nama_form');
+		$form_soal->nilai_kkm = $this->input->post('nilai_kkm');
 		$form_soal->waktu_pengerjaan = $this->input->post('waktu_pengerjaan');
 		$form_soal->updated = date('Y-m-d H:i:s');
 

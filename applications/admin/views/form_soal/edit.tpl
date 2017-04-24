@@ -17,6 +17,14 @@
 				
 			<!-- Text input-->
 			<div class="form-group">
+				<label class="col-lg-2 control-label" for="nilai_kkm">Nilai Batas Lulus</label>  
+				<div class="col-lg-1">
+					<input id="nilai_kkm" name="nilai_kkm" class="form-control input-md" type="text" value="{$form_soal->nilai_kkm}">
+				</div>
+			</div>
+				
+			<!-- Text input-->
+			<div class="form-group">
 				<label class="col-lg-2 control-label" for="waktu_pengerjaan">Waktu Pengerjaan</label>  
 				<div class="col-lg-2">
 					<div class="input-group">

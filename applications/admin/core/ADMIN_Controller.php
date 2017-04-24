@@ -16,6 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property CI_Upload $upload
  * @property CI_Output $output
  * @property CI_URI $uri
+ * @property CI_Migration $migration
  */
 class ADMIN_Controller extends CI_Controller 
 {
@@ -26,7 +27,7 @@ class ADMIN_Controller extends CI_Controller
 		// Jika tidak ada session langsung Keluar
 		if ($this->session->userdata('logged_admin') != TRUE)
 		{
-			redirect($this->config->item('app_site_url'));
+			redirect($this->config->item('app_site_url') . 'auth/login-admin/');
 			
 			exit();
 		}

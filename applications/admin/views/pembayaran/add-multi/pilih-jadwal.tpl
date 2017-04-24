@@ -1,6 +1,6 @@
 {extends file='../../layout.tpl'}
 {block name='head'}
-	<link href="{site_url('../assets/css/dataTables.bootstrap.min.css')}" rel="stylesheet" />
+	<link href="{site_url('../assets/css/datatables.min.css')}" rel="stylesheet" />
 	<style>
 		.table tbody tr td:last-child {
 			text-align: right;
@@ -11,10 +11,11 @@
 	<h2 class="page-header">Tambah Pembayaran Multi</h2>
 	<h3>Pilih Jadwal Test :</h3>
 	<form action="{site_url('pembayaran/add-multi/pilih-peserta')}" method="post">
-		<table class="table table-bordered table-extra-condensed" id="tablePembayaran">
+		<input type="hidden" name="ijt" value="" />
+		<table class="table table-bordered table-extra-condensed" id="table" data-order='[[ 1, "desc" ]]'>
 			<thead>
 				<tr>
-					<th style="width: 40px"></th>
+					<th></th>
 					<th>Tanggal Tes</th>
 					<th>Lembar Soal dipakai</th>
 					<th>Waktu</th>
@@ -23,9 +24,9 @@
 			</thead>
 			<tbody>
 				{foreach $data_set as $data}
-					<tr>
-						<td><input type="radio" name="ijt" value="{$data->id_jadwal_test}" /></td>
-						<td>{$data->tanggal_test|date_format:"%d %B %Y"}</td>
+					<tr id="ijt{$data->id_jadwal_test}">
+						<td></td>
+						<td data-order="{$data->tanggal_test|date_format:"%Y%m%d"}">{$data->tanggal_test|date_format:"%d %B %Y"}</td>
 						<td>{$data->nama_form}</td>
 						<td>{$data->waktu_pengerjaan}</td>
 						<td>{$data->jumlah_pendaftar}</td>
@@ -47,23 +48,19 @@
 	</form>
 {/block}
 {block name='footer-script'}
-	<script src="{site_url('../assets/js/jquery.dataTables.min.js')}"></script>
-	<script src="{site_url('../assets/js/dataTables.bootstrap.min.js')}"></script>
+	<script src="{site_url('../assets/js/datatables.min.js')}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			/* Coloring Script */
-			$('input[type=radio]').on('change', function() {
-				/* clear other colored */
-				$('tr').removeClass('success');
-				
-				if ($(this).is(':checked'))
-					$(this).parent().parent().addClass('success');
-			});
-			
 			{if count($data_set) > 0}
-			$('#tablePembayaran').DataTable({
-				bLengthChange: false,
-				ordering: false
+			var table = $('#table').DataTable({
+				columnDefs: [
+					{ targets: 0, className: 'select-checkbox', orderable: false }
+				],
+				select : { style: 'single' }
+			});
+			$('#table').on('click', 'tr', function() {
+				var id = table.row(this).id().toString().replace('ijt', '');
+				$('input[name="ijt"]').val(id);
 			});
 			{/if}
 		});

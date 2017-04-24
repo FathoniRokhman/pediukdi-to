@@ -1,6 +1,6 @@
 {extends file='../layout.tpl'}
 {block name='head'}
-	<link href="{site_url('../assets/css/dataTables.bootstrap.min.css')}" rel="stylesheet" />
+	<link href="{site_url('../assets/css/datatables.min.css')}" rel="stylesheet" />
 {/block}
 {block name='content'}
 	<h2 class="page-header">Daftar User</h2>
@@ -38,8 +38,7 @@
 	</table>
 {/block}
 {block name='footer-script'}
-	<script src="{site_url('../assets/js/jquery.dataTables.min.js')}"></script>
-	<script src="{site_url('../assets/js/dataTables.bootstrap.min.js')}"></script>
+	<script src="{site_url('../assets/js/datatables.min.js')}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			{if count($data_set) > 0}
