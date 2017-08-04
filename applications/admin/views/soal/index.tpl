@@ -50,7 +50,7 @@
 					</tr>
 				{foreachelse}
 					<tr>
-						<td colspan="4"><i>Tidak ada data ditampilkan</i></td>
+						<td colspan="5"><i>Tidak ada data ditampilkan</i></td>
 					</tr>
 				{/foreach}
 			</tbody>
