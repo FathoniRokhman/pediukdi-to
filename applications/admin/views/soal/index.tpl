@@ -18,6 +18,7 @@
 					<th style="width: 40px">No</th>
 					<th>Soal</th>
 					<th>Kategori</th>
+					<th>Pembahasan</th>
 					<th style="width: 90px"></th>
 				</tr>
 			</thead>
@@ -34,6 +35,14 @@
 							{/if}
 						</td>
 						<td>{$data->nama_kelompok}</td>
+						<td>
+							{* Tampilkan status sudah ada pembahasan *}
+							{if strlen($data->pembahasan_soal) > 0}
+								<span class="label label-success">ADA</span>
+							{else}
+								<span class="label label-danger">BELUM ADA</span>
+							{/if}
+						</td>
 						<td>
 							<a href="{site_url('soal/edit/')}{$data->id_soal}" class="btn btn-xs btn-success">Edit</a>
 							<a href="" class="text-danger" data-toggle="modal" data-target="#deleteModal" data-id="{$data->id_soal}" data-ifs="{$data->id_form_soal}"><strong>Hapus</strong></a>

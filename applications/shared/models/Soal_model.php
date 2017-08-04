@@ -115,6 +115,7 @@ class Soal_model extends CI_Model
 		$soal->id_form_soal		= $this->input->post('id_form_soal');
 		$soal->no_soal			= trim($this->input->post('no_soal'));
 		$soal->isi_soal			= trim($this->input->post('isi_soal'));
+		$soal->pembahasan_soal	= trim($this->input->post('pembahasan_soal'));
 		$soal->id_kelompok_soal = $this->input->post('id_kelompok_soal');
 		$soal->created			= $created;
 		
@@ -147,6 +148,7 @@ class Soal_model extends CI_Model
 		$soal					= new stdClass();
 		$soal->no_soal			= trim($this->input->post('no_soal'));
 		$soal->isi_soal			= trim($this->input->post('isi_soal'));
+		$soal->pembahasan_soal	= trim($this->input->post('pembahasan_soal'));
 		$soal->id_kelompok_soal = $this->input->post('id_kelompok_soal');
 		$soal->updated			= $updated;
 		

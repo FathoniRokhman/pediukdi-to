@@ -1,8 +1,14 @@
 {extends file='../layout.tpl'}
+{block name='head'}
+	<link href="{site_url('../assets/css/datatables.min.css')}" rel="stylesheet" />
+	<style>
+		.table tbody tr td:last-child { text-align: right; }
+	</style>
+{/block}
 {block name='content'}
 	<h2 class="page-header">Jadwal Tes</h2>
 	<p><a href="{site_url('jadwal/add')}" class="btn btn-xs btn-primary">Tambah</a></p>
-	<table class="table table-bordered table-extra-condensed">
+	<table class="table table-bordered table-extra-condensed" id="table">
 		<thead>
 			<tr>
 				<th>Tanggal Tes</th>
@@ -52,10 +58,12 @@
 	</div>
 {/block}
 {block name='footer-script'}
+	<script src="{site_url('../assets/js/datatables.min.js')}"></script>
 	<script type="text/javascript">
 		$('#deleteModal').on('show.bs.modal', function(event) {
 			var button = $(event.relatedTarget);
 			$(this).find('#formDelete').attr('action', "{site_url('jadwal/delete/')}" + button.data('id'));
 		});
+		$('#table').DataTable();
 	</script>
 {/block}

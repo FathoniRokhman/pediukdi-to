@@ -96,6 +96,14 @@
 					</div>
 				</div>
 			</div>
+					
+			<!-- Textarea input -->
+			<div class="form-group">
+				<p>Pembahasan Soal : </p>
+				<div class="col-md-7">
+				<textarea class="form-control" rows="1" id="editorPembahasanSoal" name="pembahasan_soal">{$soal->pembahasan_soal}</textarea>
+				</div>
+			</div>
 			
 			<!-- Button (Double) -->
 			<div class="form-group">
@@ -135,5 +143,30 @@
 			filebrowserUploadUrl: '{site_url('soal/upload-img')}',
 			image_previewText: "."
 		});
+		
+		CKEDITOR.replace('editorPembahasanSoal', {
+			height: 150,
+			width: 600,
+			toolbarGroups : [
+				{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+				{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+				{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+				{ name: 'forms', groups: [ 'forms' ] },
+				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+				{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+				{ name: 'links', groups: [ 'links' ] },
+				{ name: 'insert', groups: [ 'insert' ] },
+				{ name: 'styles', groups: [ 'styles' ] },
+				{ name: 'colors', groups: [ 'colors' ] },
+				{ name: 'tools', groups: [ 'tools' ] },
+				{ name: 'others', groups: [ 'others' ] },
+				{ name: 'about', groups: [ 'about' ] }
+			],
+			removeButtons: 'Anchor,Underline,Strike,Subscript,Superscript,Outdent,About,Unlink,Link,Indent',
+			extraPlugins: 'uploadwidget,uploadimage',
+			filebrowserUploadUrl: '{site_url('soal/upload-img')}',
+			image_previewText: "."
+		});
+
 	</script>
 {/block}

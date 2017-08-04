@@ -44,7 +44,7 @@ class Migrate extends ADMIN_Controller
 		}
 		else
 		{
-			echo "--> Berhasil di migrate ke versi " . $result . "<br/>";
+			echo "--&gt; Berhasil di migrate ke versi " . $result . "<br/>";
 		}
 	}
 	
