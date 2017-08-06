@@ -12,6 +12,7 @@
 				<th>Rotasi Klinik</th>
 				<th>Telp</th>
 				<th>Email</th>
+				<th>Verifikasi</th>
 				<th></th>
 			</tr>
 		</thead>
@@ -22,16 +23,15 @@
 					<td>{$data->institusi}</td>
 					<td>{$data->last_rotasi_klinik}</td>
 					<td>{$data->no_hp}</td>
-					<td>{$data->email}
-						{if $data->is_verified == 1}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true" title="Verified"></span>{/if}
-					</td>
+					<td>{$data->email}</td>
+					<td>{if $data->is_verified == 1}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true" title="Verified"></span>{/if}</td>
 					<td class="text-right">
 						<a href="{site_url('user/add_pembayaran/')}{$data->id_user}" class="btn btn-xs btn-success">Tambah Pembayaran Tes</a>
 					</td>
 				</tr>
 			{foreachelse}
 				<tr>
-					<td colspan="6">Tidak ada data ditampilkan</td>
+					<td colspan="7">Tidak ada data ditampilkan</td>
 				</tr>
 			{/foreach}
 		</tbody>

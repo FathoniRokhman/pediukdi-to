@@ -45,7 +45,7 @@
 						<div id="navbar" class="navbar-collapse collapse">
 							<ul class="nav navbar-nav">
 								<li>
-									<a>Pengerjaan Soal</a>
+									<a>{block name="judul_menu"}Pengerjaan Soal{/block}</a>
 								</li>
 							</ul>
 						</div>

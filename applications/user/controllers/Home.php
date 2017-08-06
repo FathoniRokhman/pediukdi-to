@@ -57,8 +57,8 @@ class Home extends USER_Controller
 		$this->smarty->display();
 	}
 
-	function elearning(){
-		
+	function elearning()
+	{
 		// get list video
 		$user = $this->session->userdata('user');
 		$isPremiumFiture = $this->elearning_model->isPremiumFiture($user->id_user) > 0 ? 1 : 0;
@@ -98,10 +98,11 @@ class Home extends USER_Controller
         $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 
         $data_video = $this->elearning_model->listVideo($config['per_page'],$page);
-        foreach ($data_video as $key => $value) {
+        foreach ($data_video as $key => $value) 
+		{
         	$data_video[$key]['linkVideo'] = str_replace('watch?v=', 'embed/', $data_video[$key]['linkVideo']);;//'https://www.youtube.com/watch?v=4T5g-9E6PUs';
-        	
         }
+		
 		$linkPaging = $this->pagination->create_links();
 
 		$this->smarty->assign('linkPaging', $linkPaging);

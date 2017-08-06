@@ -15,6 +15,7 @@
 						yang stabil ketika mengerjakan agar tidak terputus di tengah jalan.</strong></p>
 					<p>Informasi hasil tes bisa diketahui sesaat setelah test sudah selesai anda kerjakan.</p>
 					<form action="{current_url()}" method="post">
+						<a href="{site_url('home')}" class="btn btn-default">Kembali</a>
 						<input type="submit" class="btn btn-primary" value="Mulai" />
 					</form>
 				</div>

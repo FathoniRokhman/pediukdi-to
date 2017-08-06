@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-		<title>PEDI-UKDI</title>
+		<title>PEDI-UKDI User</title>
 
 		<!-- Bootstrap core CSS -->
 		<link href="{$ci->config->item('app_site_url')}assets/css/bootstrap-yeti.min.css" rel="stylesheet">
@@ -47,8 +47,8 @@
 					<ul class="nav navbar-nav">
 						<li><a href="{site_url('home')}">Home</a></li>
 						<li><a href="{site_url('home/elearning')}">E-Learning</a></li>
-						<li><a href="{site_url('home/jadwal_test')}">Jadwal Tes</a></li>
-						<li><a href="{site_url('test/test_result')}">Hasil Tes</a></li>
+						<li><a href="{site_url('test/list-test')}">Tes</a></li>
+						<li><a href="{site_url('test/test-result')}">Hasil Tes</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="{site_url('auth/change_password')}">Ganti Password</a></li>

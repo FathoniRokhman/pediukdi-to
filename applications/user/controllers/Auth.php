@@ -131,8 +131,8 @@ class Auth extends USER_Controller
 	
 	function logout()
 	{
-		// Panggil fungsi logout pada Site Application
-		redirect('http://www.pediukdi.com/', 'refresh');
+		// Kembali ke halaman login
+		redirect(base_url(), 'refresh');
 	}
 	
 	function change_password()

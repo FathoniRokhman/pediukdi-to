@@ -7,6 +7,7 @@
  * @property Pembayaran_model $pembayaran_model Description
  * @property User_model $user_model Description
  * @property Soal_model $soal_model
+ * @property TestSession_model $testsession_model
  */
 class Test extends USER_Controller
 {
@@ -19,22 +20,52 @@ class Test extends USER_Controller
 		$this->load->model('user_model');
 		$this->load->model('pembayaran_model');
 		$this->load->model('soal_model');
+		$this->load->model('testsession_model');
 	}
 	
-	function pre_start()
+	function list_test()
+	{
+		$user = $this->session->userdata('user');
+		
+		// Load data sesi test
+		$data_set = $this->testsession_model->list_test_session($user->id_user);
+		
+		$this->smarty->assign('data_set', $data_set);
+		$this->smarty->display();
+	}
+	
+	function detail_result($id_pembayaran)
+	{
+		$user = $this->session->userdata('user');
+		
+		$test_session = $this->testsession_model->get_by_pembayaran($user->id_user, $id_pembayaran);
+		$this->smarty->assign('test_session', $test_session);
+		
+		$kelompok_soal_set = $this->testsession_model->get_detail_per_kelompok_soal($test_session->id_test_session);
+		$this->smarty->assign('kelompok_soal_set', $kelompok_soal_set);
+	
+		$this->smarty->display();
+	}
+	
+	function pre_start($id_pembayaran = null)
 	{
 		if ($this->input->method() == 'post')
 		{
 			$user = $this->session->userdata('user');
 			
 			// Ambil Pembayaran Aktif
-			$pembayaran_aktif = $this->pembayaran_model->get_pembayaran_aktif($user->id_user);
+			// $pembayaran_aktif = $this->pembayaran_model->get_pembayaran_aktif($user->id_user);
+
+			// Ambil dari pembayarna yg dipilih
+			$pembayaran = $this->pembayaran_model->get($id_pembayaran, $user->id_user);
 			
+			// Waktu start ambil dari system
 			$start_time = date('Y-m-d H:i:s');
 			
 			// Start Session
-			$this->user_model->start_test_session($pembayaran_aktif->id_jadwal_test, $user->id_user, $start_time);
+			$this->user_model->start_test_session($pembayaran->id_jadwal_test, $user->id_user, $start_time);
 			
+			// Menuju halaman pengerjaan soal
 			redirect('test/soal');
 		}
 		
@@ -79,6 +110,34 @@ class Test extends USER_Controller
 		{
 			redirect('home');
 		}
+	}
+	
+	function bahas_soal($id_test_session, $no_soal = 1)
+	{
+		$user = $this->session->userdata('user');
+		
+		$test_session	= $this->testsession_model->get($id_test_session);
+		$soal			= $this->soal_model->get_soal_by_no($test_session->jadwal_test->id_form_soal, $no_soal);
+		$jumlah_soal	= $this->soal_model->count_soal($test_session->jadwal_test->id_form_soal);
+		$jawaban_user	= $this->user_model->get_jawaban_user($user->id_user, $test_session->id_jadwal_test, $test_session->jadwal_test->id_form_soal, $soal->id_soal);
+		
+		$test_session->jumlah_dijawab = $this->user_model->count_jawaban_user($user->id_user, $test_session->id_jadwal_test,  $test_session->jadwal_test->id_form_soal);
+		$test_session->jawaban_user_set = $this->user_model->list_jawaban_user($user->id_user, $test_session->id_jadwal_test, $test_session->jadwal_test->id_form_soal);
+		
+		$this->smarty->assign('no_soal', $no_soal);
+		$this->smarty->assign('no_soal_prev', $no_soal - 1);
+		$this->smarty->assign('no_soal_next', $no_soal + 1);
+		
+		$this->smarty->assign('soal', $soal);
+		$this->smarty->assign('jumlah_soal', $jumlah_soal);
+		$this->smarty->assign('jawaban_user', $jawaban_user);
+		$this->smarty->assign('test_session', $test_session);
+		$this->smarty->assign('user', $user);
+		
+		$this->smarty->assign('end_session_url', site_url('test/end-session'));
+		$this->smarty->assign('soal_url', site_url('test/bahas-soal/'.$id_test_session));
+		
+		$this->smarty->display();
 	}
 	
 	function jawab_soal()
@@ -184,7 +243,7 @@ class Test extends USER_Controller
 		
 		$user = $this->session->userdata('user');
 		
-		$test_session_set = $this->user_model->list_test_session_finished($user->id_user);
+		$test_session_set = $this->testsession_model->list_test_session_finished($user->id_user);
 		$this->smarty->assign('test_session_set', $test_session_set);
 		
 		$this->smarty->display();
@@ -196,7 +255,7 @@ class Test extends USER_Controller
 		
 		$user = $this->session->userdata('user');
 		
-		$test_session_set = $this->user_model->list_test_session_finished($user->id_user, $id_test_session);
+		$test_session_set = $this->testsession_model->list_test_session_finished($user->id_user, $id_test_session);
 		$this->smarty->assign('test_session_set', $test_session_set);
 		
 		$email = $test_session_set[0]->email;

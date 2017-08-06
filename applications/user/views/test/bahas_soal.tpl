@@ -3,7 +3,7 @@
 	<style type="text/css">
 		.soal > .no-soal { float: left; margin-right: 4px; }
 		.poin-jawaban, .jawaban-ragu { cursor: pointer; }
-		.jawaban { margin-bottom: 5px; }
+		.jawaban, .jawaban>.table { margin-bottom: 5px; }
 		.tombol-soal { margin-bottom: 5px; }
 		.tombol-soal-prev, .tombol-soal-next { display: inline; }
 		div.soal-number { font-size: 110%; margin-top: 25px; }
@@ -14,14 +14,14 @@
 		.btn-nomer-soal.aktif { border: 4px solid gold; }
 	</style>
 {/block}
-{block name="judul_menu"}Pengerjaan Soal{/block}
+{block name="judul_menu"}Pembahasan Soal{/block}
 {block name='content'}
 	<div class="container">
 		<div class="row">
 
 			<div class="col-lg-2 col-md-2 col-sm-3 hidden-xs">
 				{* <a href="" class="thumbnail profile-picture"><img src="{$ci->config->item('app_site_url')}assets/images/portrait3.jpg" alt="Profil Picture"></a> *}
-				<p class="text-center">{$test_session->nama}</p>
+				<p class="text-center">{$test_session->user->nama}</p>
 				<table class="table">
 					<thead>
 						<tr><th colspan="2">Status Pengerjaan</th></tr>
@@ -37,13 +37,11 @@
 						</tr>
 						<tr>
 							<td>Sisa Waktu</td>
-							<td><strong><span class="sisa-waktu">{$test_session->sisa}</span></strong></td>
+							<td><strong><span class="sisa-waktu">0</span></strong></td>
 						</tr>
 						<tr>
 							<td colspan="2" class="text-center">
-								<form action="{$end_session_url}" method="post">
-									<button class="btn btn-default btn-selesai">Selesai</button>
-								</form>
+								<a href="{site_url('test/list-test')}" class="btn btn-default btn-selesai">Kembali</button>
 							</td>
 						</tr>
 					</tbody>
@@ -57,22 +55,54 @@
 					<div class="isi-soal">{$soal->isi_soal}</div>
 				</div>
 				<div class="jawaban">
-					<table class="table-condensed">
+					<table class="table table-condensed">
 						<col width="20px"/>
 						<col />
 						<tbody>
 							{foreach $soal->jawaban as $jawaban}
-								<tr>
+								
+								{* Cek kunci, jika benar = hijau, jika salah = merah *}
+								{$warna_tr = ''}
+								{if !empty($jawaban_user)}
+									{if $jawaban_user->id_jawaban_soal == $jawaban->id_jawaban_soal}
+										{if $jawaban->is_kunci}
+											{$warna_tr = 'success'}
+										{else}
+											{$warna_tr = 'danger'}
+										{/if}
+									{else}
+										{if $jawaban->is_kunci}
+											{$warna_tr = 'info'}
+										{/if}
+									{/if}
+								{else}
+									{if $jawaban->is_kunci}
+										{$warna_tr = 'info'}
+									{/if}
+								{/if}
+								
+								<tr class="{$warna_tr}">
 									<td><input type="radio" data-huruf="{$jawaban->huruf}" name="jawaban" value="{$jawaban->id_jawaban_soal}" 
-										{if !empty($jawaban_user)}{if $jawaban_user->id_jawaban_soal == $jawaban->id_jawaban_soal}checked=""{/if}{/if}/></td>
-									<td class="poin-jawaban" data-huruf="{$jawaban->huruf}">{$jawaban->huruf|capitalize}. {$jawaban->jawaban}</td>
+										{if !empty($jawaban_user)}{if $jawaban_user->id_jawaban_soal == $jawaban->id_jawaban_soal}checked=""{/if}{/if} disabled="disabled"/></td>
+									<td class="poin-jawaban" data-huruf="{$jawaban->huruf}">{$jawaban->huruf|capitalize}. {$jawaban->jawaban}
+										{if $warna_tr == 'success'}
+											<span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+										{else if $warna_tr == 'danger'}
+											<span class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></span>
+										{else}
+											{* Munculkan tanda pas kunci *}
+											{if $jawaban->is_kunci}
+												<span class="glyphicon glyphicon-ok text-info" aria-hidden="true"></span>
+											{/if}
+										{/if}
+									</td>
 								</tr>
 							{/foreach}
 							<tr>
 								<td>
 									<input type="checkbox" name="is_ragu" 
 										{if empty($jawaban_user)}disabled{/if}{* Jika belum jawab, tidak bisa pilih ragu *}
-										{if !empty($jawaban_user)}{if $jawaban_user->is_ragu}checked{/if}{/if} />
+										{if !empty($jawaban_user)}{if $jawaban_user->is_ragu}checked{/if}{/if} disabled="disabled"/>
 								</td>
 								<td>
 									<i class="jawaban-ragu">Masih Ragu</i>
@@ -81,6 +111,12 @@
 						</tbody>
 					</table>
 				</div>
+				<!-- Region Pembahasan Soal -->
+				<div class="soal">
+					<p>Pembahasan :</p>
+					<div class="pembahasan-soal">{$soal->pembahasan_soal}</div>
+				</div>
+				
 				<div class="tombol-soal">
 					<form action="{$soal_url}/{$no_soal_prev}" method="get" class="tombol-soal-prev">
 						<button class="btn btn-primary {if $no_soal_prev <= 0}disabled{/if}">
@@ -163,110 +199,4 @@
 		</div>
 	</div>
 	
-{/block}
-{block name='footer-script'}
-	<script src="{$ci->config->item('app_site_url')}assets/js/jquery.countdown-2.2.0/jquery.countdown.min.js"></script>
-	<script type='text/javascript'>
-		
-		var endTime = '{$test_session->end_time}';
-		
-		$('span.sisa-waktu').countdown(endTime)
-			.on('update.countdown', function(event) {
-				var $this = $(this);
-				$this.html(event.strftime('%H:%M:%S'));
-			})
-			.on('finish.countdown', function(event) {
-				var $this = $(this);
-				$this.html(event.strftime('%H:%M:%S'));
-				
-				alert('Waktu anda sudah habis. Anda bisa melihat hasilnya di menu Hasil Test');
-				
-				/* Redirect */
-				window.location = '{$end_session_url}';
-			});
-		
-		/* Jawaban berubah / dipilih */
-		$('input[type="radio"][data-huruf]').on('change', function() {
-			
-			var btnNomor = $('button.btn-nomer-soal.aktif');
-			/* Clear warna, kemudian warnai hijau */
-			btnNomor.removeClass('btn-success btn-warning').addClass('btn-success');
-			
-			var data = {
-				id_soal: '{$soal->id_soal}',
-				id_jawaban_soal: $(this).val()
-			};
-			
-			// Kirim jawaban ke server
-			$.ajax({
-				type: "POST",
-				url: '{$jawab_soal_url}',
-				data: data,
-				dataType: 'json',
-				beforeSend: function () {
-					$('.jumlah-dijawab').html('<img src="{$ci->config->item('app_site_url')}assets/images/loading.gif" />');
-                },
-				success: function(data) {
-					$('.jumlah-dijawab').html(data.jumlah_dijawab);
-					// otomatis aktifkan checkbox ragu
-					$('input[name="is_ragu"]').removeAttr('disabled');
-				}
-			});
-			
-			//$.post('{$jawab_soal_url}', data, function(data) {
-			//	$('.jumlah-dijawab').html(data.jumlah_dijawab);
-				// otomatis aktifkan checkbox ragu
-			//	$('input[name="is_ragu"]').removeAttr('disabled');
-			//});
-		});
-	
-		/* Centang ragu di klik */
-		$('input[name="is_ragu"]').on('change', function() {
-			
-			var is_checked = $(this).is(':checked');
-			
-			$.post('{$set_ragu_url}', { id_soal: '{$soal->id_soal}', checked: is_checked }, function(data) {
-				var btnNomor = $('button.btn-nomer-soal.aktif');
-				
-				if (is_checked)
-					btnNomor.removeClass('btn-success').addClass('btn-warning');  // Warna orange
-				else
-					btnNomor.removeClass('btn-warning').addClass('btn-success');  // Warna hijau
-			});
-		});
-	
-		// Event handler label jawaban di klik
-		$('.poin-jawaban').on('click', function() {
-			
-			var huruf = $(this).data('huruf');
-			var radio = $('input[type="radio"][data-huruf="'+huruf+'"]');
-			
-			/* set check saat jawaban di klik */
-			radio.prop('checked', true);
-			radio.trigger('change');
-
-		});
-		
-		// Event handler tombol selesai di klik
-		$('.btn-selesai').on('click', function() {
-			if (confirm('Apakah anda akan menyelesaikan pengerjaan soal ?'))
-				return;
-			else
-				return false;
-		});
-		
-		// Event handler label ragu di klik
-		$('.jawaban-ragu').on('click', function() {
-			var raguCheckbox = $('input[name="is_ragu"]');
-			if (raguCheckbox.is(':disabled') == false)
-			{
-				if (raguCheckbox.is(':checked'))
-					raguCheckbox.prop('checked', false);
-				else
-					raguCheckbox.prop('checked', true);
-				
-				raguCheckbox.trigger('change');
-			}
-		});
-	</script>
 {/block}

@@ -8,6 +8,16 @@
  */
 class Pembayaran_model extends CI_Model
 {
+	/**
+	 * Get pembayaran, perlu id_user untuk memperkuat security
+	 * @param int $id_pembayaran
+	 * @param int $id_user
+	 */
+	function get($id_pembayaran, $id_user)
+	{
+		return $this->db->get_where('pembayaran', ['id_pembayaran' => $id_pembayaran, 'id_user' => $id_user], 1)->row();
+	}
+	
 	function list_pembayaran()
 	{
 		$this->query = $this->db
