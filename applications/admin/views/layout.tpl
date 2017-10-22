@@ -11,17 +11,13 @@
 		{if $smarty.const.ENVIRONMENT == 'production'}
 		<!-- Bootstrap core CSS -->
 		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-HzUaiJdCTIY/RL2vDPRGdEQHHahjzwoJJzGUkYjHVzTwXFQ2QN/nVgX7tzoMW3Ov" crossorigin="anonymous">
-		{/if}
-        
-        {if $smarty.const.ENVIRONMENT == 'development'}
+        {else if $smarty.const.ENVIRONMENT == 'development'}
 		<!-- Bootstrap core CSS -->
-		<link href="{$ci->config->item('app_site_url')}assets/css/bootstrap-yeti.min.css" rel="stylesheet">
+		<link href="{base_url('../assets/css/bootstrap-yeti.min.css')}" rel="stylesheet">
 		{/if}
         
-		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-		<link href="{$ci->config->item('app_site_url')}assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 		<!-- Custom styles for this template -->
-		<link href="{$ci->config->item('app_site_url')}assets/css/admin.css" rel="stylesheet">
+		<link href="{base_url('../assets/css/admin.css')}" rel="stylesheet">
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!--[if lt IE 9]>
@@ -60,15 +56,13 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manajemen User <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="{site_url('user')}">Daftar User</a></li>
-								<li><a href="{site_url('pembayaran')}">Pembayaran</a></li>
-								<li><a href="{site_url('pembayaran/add-multi')}">Tambah Pembayaran Multi</a></li>
+								<li><a href="{site_url('user-paket')}">Pendaftaran Tes</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Manajemen Tes <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="{site_url('jadwal')}">Jadwal Tes</a></li>
-								<li><a href="{site_url('hasil')}">Hasil Tes</a></li>
+								<li><a href="{site_url('periode')}">Periode Tes</a></li>
 							</ul>
 						</li>
 						<li>
@@ -108,15 +102,13 @@
 						</h5>
 						<ul class="nav nav-pills nav-stacked">
 							<li><a href="{site_url('user')}">Daftar User</a></li>
-							<li><a href="{site_url('pembayaran')}">Pembayaran</a></li>
-							<li><a href="{site_url('pembayaran/add-multi')}">Tambah Pembayaran Multi</a></li>
+							<li><a href="{site_url('user-paket')}">Pendaftaran Tes</a></li>
 						</ul>
 						<h5><i class="glyphicon glyphicon-user"></i>
 							<small><b>MANAJEMEN TES</b></small>
 						</h5>
 						<ul class="nav nav-pills nav-stacked">
-							<li><a href="{site_url('jadwal')}">Jadwal Tes</a></li>
-							<li><a href="{site_url('hasil')}">Hasil Tes</a></li>
+							<li><a href="{site_url('periode')}">Periode Tes</a></li>
 						</ul>
 						<h5><i class="glyphicon glyphicon-user"></i>
 							<small><b>MANAJEMEN E-Learning</b></small>
@@ -136,15 +128,12 @@
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
-		{if $smarty.server.SERVER_NAME == 'www.pediukdi.com'}
+		{if $smarty.const.ENVIRONMENT == 'production'}
 		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/js/ie10-viewport-bug-workaround.js" crossorigin="anonymous"></script>
-		{else}
+		{else if $smarty.const.ENVIRONMENT == 'development'}
 		<script src="{base_url('../assets/js/jquery-1.12.4.min.js')}"></script>
 		<script src="{base_url('../assets/js/bootstrap.min.js')}"></script>
-		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-		<script src="{base_url('../assets/js/ie10-viewport-bug-workaround.js')}"></script>
 		{/if}
 		{block name='footer-script'}{/block}
 	</body>

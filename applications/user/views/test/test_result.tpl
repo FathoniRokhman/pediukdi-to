@@ -11,7 +11,7 @@
 		<div class="col-md-4 col-sm-6">
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					<h3 class="panel-title">Tes : {$test_session->start_time|date_format:"%d %B %Y %H:%M:%S"}</h3>
+					<h3 class="panel-title">Soal : {$test_session->nama_form}</h3>
 				</div>
 				<div class="panel-body">
 					<h5>Skor Akhir : <strong style="font-size: 150%">{$test_session->form_soal->skor_akhir + 0}</strong></h5>

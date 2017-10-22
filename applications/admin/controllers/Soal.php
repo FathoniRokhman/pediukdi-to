@@ -2,8 +2,9 @@
 
 /**
  * @author Fathoni <m.fathoni@mail.com>
+ * @property Form_soal_model $form_soal_model 
  * @property Soal_model $soal_model
- * @property CI_Output $output Description
+ * @property CI_Output $output 
  */
 class Soal extends ADMIN_Controller
 {
@@ -11,6 +12,7 @@ class Soal extends ADMIN_Controller
 	{
 		parent::__construct();
 		
+		$this->load->model('form_soal_model');
 		$this->load->model('soal_model');
 	}
 	
@@ -54,7 +56,7 @@ class Soal extends ADMIN_Controller
 			}
 		}
 		
-		$form_soal = $this->soal_model->get_form_soal($this->input->get('ifs'));
+		$form_soal = $this->form_soal_model->get_single($this->input->get('ifs'));
 		$this->smarty->assignByRef('form_soal', $form_soal);
 		
 		$this->smarty->assignForCombo('kelompok_soal_set', $this->soal_model->list_kelompok_soal(), 'id_kelompok_soal', 'nama_kelompok');
@@ -77,7 +79,7 @@ class Soal extends ADMIN_Controller
 		$soal = $this->soal_model->get_soal($id_soal);
 		$this->smarty->assignByRef('soal', $soal);
 		
-		$form_soal = $this->soal_model->get_form_soal($soal->id_form_soal);
+		$form_soal = $this->form_soal_model->get_single($soal->id_form_soal);
 		$this->smarty->assignByRef('form_soal', $form_soal);
 		
 		$this->smarty->assignForCombo('kelompok_soal_set', $this->soal_model->list_kelompok_soal(), 'id_kelompok_soal', 'nama_kelompok');

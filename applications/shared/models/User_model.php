@@ -111,28 +111,6 @@ class User_model extends CI_Model
 	}
 	
 	/**
-	 * Mendapatkan session test berjalan
-	 */
-	function get_test_session($id_user)
-	{
-		$current_time = date('Y-m-d H:i:s');
-		
-		return $this->db->query(
-			"SELECT 
-				ts.id_test_session, u.nama, jt.id_jadwal_test, fs.id_form_soal,
-				fs.waktu_pengerjaan, 
-				ts.start_time, 
-				DATE_ADD(ts.start_time, INTERVAL fs.waktu_pengerjaan MINUTE) end_time,
-				TIMEDIFF(DATE_ADD(ts.start_time, INTERVAL fs.waktu_pengerjaan MINUTE), '{$current_time}') sisa,
-				TIME_TO_SEC(TIMEDIFF(DATE_ADD(ts.start_time, INTERVAL fs.waktu_pengerjaan MINUTE), '{$current_time}')) sisa_detik
-			FROM test_session ts
-			JOIN user u ON u.id_user = ts.id_user
-			JOIN jadwal_test jt ON jt.id_jadwal_test = ts.id_jadwal_test 
-			JOIN form_soal fs ON fs.id_form_soal = jt.id_form_soal
-			WHERE ts.id_user = {$id_user} AND ts.is_finished = 0")->row();
-	}
-	
-	/**
 	 * Mendapatkan session test guest
 	 */
 	function refresh_guest_session(stdClass &$guest_session)
@@ -153,34 +131,14 @@ class User_model extends CI_Model
 				gs.session_id = '{$guest_session->session_id}'")->row();
 	}
 	
-	function add_jawaban(stdClass $jawaban_user)
-	{
-		return $this->db->insert('jawaban_user', $jawaban_user);
-	}
-	
 	function add_jawaban_guest(stdClass $jawaban_guest)
 	{
 		return $this->db->insert('jawaban_guest', $jawaban_guest);
 	}
 	
-	function update_jawaban($id_jawaban_user, stdClass $jawaban_user)
-	{
-		return $this->db->update('jawaban_user', $jawaban_user, array('id_jawaban_user' => $id_jawaban_user));
-	}
-	
 	function update_jawaban_guest($id_jawaban_guest, stdClass $jawaban_guest)
 	{
 		return $this->db->update('jawaban_guest', $jawaban_guest, array('id_jawaban_guest' => $id_jawaban_guest));
-	}
-	
-	function get_jawaban_user($id_user, $id_jadwal_test, $id_form_soal, $id_soal)
-	{
-		return $this->db->get_where('jawaban_user', array(
-			'id_user' => $id_user,
-			'id_jadwal_test' => $id_jadwal_test,
-			'id_form_soal' => $id_form_soal,
-			'id_soal' => $id_soal
-		))->first_row();
 	}
 	
 	function get_jawaban_guest($id_guest_session, $id_form_soal, $id_soal)
@@ -192,17 +150,6 @@ class User_model extends CI_Model
 		))->first_row();
 	}
 	
-	function count_jawaban_user($id_user, $id_jadwal_test, $id_form_soal)
-	{
-		return $this->db
-			->from('jawaban_user')
-			->where(array(
-				'id_user' => $id_user,
-				'id_jadwal_test' => $id_jadwal_test,
-				'id_form_soal' => $id_form_soal
-			))->count_all_results();
-	}
-	
 	function count_jawaban_guest($id_guest_session, $id_form_soal)
 	{
 		return $this->db
@@ -211,20 +158,6 @@ class User_model extends CI_Model
 				'id_guest_session' => $id_guest_session,
 				'id_form_soal' => $id_form_soal
 			))->count_all_results();
-	}
-	
-	function list_jawaban_user($id_user, $id_jadwal_test, $id_form_soal)
-	{
-		return $this->db
-			->select('jawaban_user.*, soal.no_soal')
-			->from('jawaban_user')
-			->join('soal', 'soal.id_soal = jawaban_user.id_soal', 'LEFT')
-			->where(array(
-				'id_user' => $id_user,
-				'id_jadwal_test' => $id_jadwal_test,
-				'jawaban_user.id_form_soal' => $id_form_soal
-			))
-			->get()->result();
 	}
 	
 	function list_jawaban_guest($id_guest_session, $id_form_soal)

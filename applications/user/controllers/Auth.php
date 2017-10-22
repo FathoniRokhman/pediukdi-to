@@ -13,9 +13,6 @@ class Auth extends USER_Controller
 	{
 		parent::__construct();
 		
-		$this->load->model('setting_model');
-		$this->load->model('user_model');
-		
 		$this->load->library('form_validation');
 	}
 	
@@ -131,8 +128,18 @@ class Auth extends USER_Controller
 	
 	function logout()
 	{
+		$this->session->unset_userdata('logged_user');
+		$this->session->unset_userdata('user');
+		
 		// Kembali ke halaman login
 		redirect(base_url(), 'refresh');
+	}
+	
+	function logout_admin()
+	{
+		$this->session->unset_userdata('logged_admin');
+		
+		redirect(site_url('auth/login-admin'));
 	}
 	
 	function change_password()

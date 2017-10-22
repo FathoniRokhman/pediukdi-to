@@ -19,10 +19,16 @@ class User extends ADMIN_Controller
 	
 	function index()
 	{
-		$data_set = $this->user_model->list_user();
-		$this->smarty->assign('data_set', $data_set);
+		// $data_set = $this->user_model->list_user();
+		// $this->smarty->assign('data_set', $data_set);
 		
 		$this->smarty->display();
+	}
+	
+	function index_data()
+	{
+		$data_set = $this->user_model->list_user();
+		echo json_encode(array('data' => $data_set));
 	}
 	
 	function add_pembayaran($id_user)

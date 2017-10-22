@@ -52,6 +52,6 @@ class Home extends ADMIN_Controller
 	function logout()
 	{
 		// Panggil fungsi logout pada Site Application
-		redirect($this->config->item('app_site_url') . 'auth/logout/', 'refresh');
+		redirect($this->config->item('app_site_url') . 'auth/logout-admin/', 'refresh');
 	}
 }

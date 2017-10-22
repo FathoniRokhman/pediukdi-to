@@ -5,8 +5,42 @@
  * @property CI_DB_query_builder $db
  * @property CI_Input $input
  */
-class TestSession_model extends CI_Model
+class Test_session_model extends CI_Model
 {
+	public $id_user_paket_soal;
+	public $nama;
+	public $id_periode_soal;
+	public $id_form_soal;
+	public $waktu_pengerjaan;
+	public $start_time;
+	public $end_time;
+	public $sisa;
+	public $sisa_detik;
+	
+	/**
+	 * Mendapatkan session test berjalan
+	 */
+	function get_active_session($id_user)
+	{
+		$current_time = date('Y-m-d H:i:s');
+		
+		return $this->db
+			->select('ups.id_user_paket_soal, u.nama, ps.id_periode_soal, ps.id_form_soal, fs.waktu_pengerjaan, ups.start_time')
+			->select('date_add(ups.start_time, interval fs.waktu_pengerjaan minute) as end_time', FALSE)
+			->select("timediff(date_add(ups.start_time, interval fs.waktu_pengerjaan minute), '{$current_time}') as sisa", FALSE)
+			->select("time_to_sec(timediff(date_add(ups.start_time, interval fs.waktu_pengerjaan minute), '{$current_time}')) as sisa_detik", FALSE)
+			->from('user_paket_soal ups')
+			->join('user_paket up', 'up.id_user_paket = ups.id_user_paket')
+			->join('user u', 'u.id_user = up.id_user')
+			->join('periode_soal ps', 'ps.id_periode_soal = ups.id_periode_soal')
+			->join('form_soal fs', 'fs.id_form_soal = ps.id_form_soal')
+			->where('up.id_user', $id_user)
+			->where('ups.start_time IS NOT NULL', NULL, FALSE)
+			->where('ups.is_finished', 0)
+			->where("date_add(ups.start_time, INTERVAL fs.waktu_pengerjaan MINUTE) > '{$current_time}'", NULL, FALSE)
+			->limit(1)->get()->row();
+	}
+	
 	function get($id_test_session)
 	{
 		$test_session = $this->db->get_where('test_session', ['id_test_session' => $id_test_session], 1)->row();
@@ -97,70 +131,83 @@ class TestSession_model extends CI_Model
 			ORDER BY ks.nama_kelompok")->result();
 	}
 	
-	function list_test_session_finished($id_user, $id_test_session_selected = 0)
+	function list_test_session_finished($id_user, $id_user_paket_soal = 0)
 	{
 		// All session
-		if ($id_test_session_selected == 0)
+		if ($id_user_paket_soal == 0)
 		{
-			$test_session_set = $this->db
+			$user_paket_soal_set = $this->db
+				->select('ups.*, fs.nama_form')->from('user_paket_soal ups')
+				->join('user_paket up', 'up.id_user_paket = ups.id_user_paket')
+				->join('periode_soal ps', 'ps.id_periode_soal = ups.id_periode_soal')
+				->join('form_soal fs', 'fs.id_form_soal = ps.id_form_soal')
+				->where('up.id_user', $id_user)
+				->where('ups.is_finished', 1)
 				->order_by('start_time', 'DESC')
-				->get_where('test_session', array('id_user' => $id_user))
+				->get()
 				->result();
 		}
 		// selecte single session
 		else
 		{
-			$test_session_set = $this->db
-				->select('test_session.*, user.nama, user.email')
-				->from('test_session')
-				->join('user', 'user.id_user = test_session.id_user')
-				->where(array('id_test_session' => $id_test_session_selected))
+			$user_paket_soal_set = $this->db
+				->select('ups.*, u.nama, u.email, fs.nama_form')
+				->from('user_paket_soal ups')
+				->join('user_paket up', 'up.id_user_paket = ups.id_user_paket')
+				->join('user u', 'u.id_user = up.id_user')
+				->join('periode_soal ps', 'ps.id_periode_soal = ups.id_periode_soal')
+				->join('form_soal fs', 'fs.id_form_soal = ps.id_form_soal')
+				->where('id_user_paket_soal', $id_user_paket_soal)
 				->order_by('start_time', 'DESC')
 				->get()
 				->result();
 		}
 		
-		foreach ($test_session_set as &$test_session)
+		// SAMPAI SINI
+		
+		foreach ($user_paket_soal_set as &$user_paket_soal)
 		{			
-			$test_session->form_soal = $this->db->query(
-				"SELECT ts.id_test_session, nama_form, 
+			$user_paket_soal->form_soal = $this->db->query(
+				"SELECT ups.id_user_paket_soal, nama_form, 
 					COUNT(s.id_soal) AS jumlah_soal, 
 					COUNT(ju.id_jawaban_soal) AS jumlah_dijawab,
 					SUM(ju.is_ragu) AS jumlah_ragu,
 					(SUM(js.is_kunci)/COUNT(s.id_soal))*100 AS skor_akhir
-				FROM test_session ts
-				JOIN jadwal_test jt ON jt.id_jadwal_test = ts.id_jadwal_test
-				JOIN form_soal fs ON fs.id_form_soal = jt.id_form_soal
+				FROM user_paket_soal ups
+				JOIN user_paket up ON up.id_user_paket = ups.id_user_paket
+				JOIN periode_soal ps ON ps.id_periode_soal = ups.id_periode_soal
+				JOIN form_soal fs ON fs.id_form_soal = ps.id_form_soal
 				JOIN soal s ON s.id_form_soal = fs.id_form_soal
 				LEFT JOIN jawaban_user ju ON 
-					ju.id_user = ts.id_user AND
-					ju.id_jadwal_test = jt.id_jadwal_test AND
+					ju.id_user = up.id_user AND
+					ju.id_user_paket_soal = ups.id_user_paket_soal AND
 					ju.id_form_soal = fs.id_form_soal AND
 					ju.id_soal = s.id_soal AND
 					ju.id_jawaban_soal IS NOT NULL
 				LEFT JOIN jawaban_soal js ON js.id_jawaban_soal = ju.id_jawaban_soal
-				WHERE ts.id_test_session = {$test_session->id_test_session} 
-				GROUP BY ts.id_test_session")->row();
+				WHERE ups.id_user_paket_soal = {$user_paket_soal->id_user_paket_soal} 
+				GROUP BY ups.id_user_paket_soal")->row();
 				
-			$test_session->kelompok_soal_set = $this->db->query(
+			$user_paket_soal->kelompok_soal_set = $this->db->query(
 				"SELECT ks.id_kelompok_soal, ks.nama_kelompok, SUM(js.is_kunci) AS jumlah_benar, SUM(IF(js.is_kunci=0, 1, 0)) AS jumlah_salah
-				FROM test_session ts
-				JOIN jadwal_test jt ON jt.id_jadwal_test = ts.id_jadwal_test
-				JOIN form_soal fs ON fs.id_form_soal = jt.id_form_soal
+				FROM user_paket_soal ups
+				JOIN user_paket up ON up.id_user_paket = ups.id_user_paket
+				JOIN periode_soal ps ON ps.id_periode_soal = ups.id_periode_soal
+				JOIN form_soal fs ON fs.id_form_soal = ps.id_form_soal
 				JOIN soal s ON s.id_form_soal = fs.id_form_soal
 				JOIN kelompok_soal ks ON ks.id_kelompok_soal = s.id_kelompok_soal
 				LEFT JOIN jawaban_user ju ON 
-					ju.id_user = ts.id_user AND
-					ju.id_jadwal_test = jt.id_jadwal_test AND
+					ju.id_user = up.id_user AND
+					ju.id_user_paket_soal = ups.id_user_paket_soal AND
 					ju.id_form_soal = fs.id_form_soal AND
 					ju.id_soal = s.id_soal AND
 					ju.id_jawaban_soal IS NOT NULL
 				LEFT JOIN jawaban_soal js ON js.id_jawaban_soal = ju.id_jawaban_soal
-				WHERE ts.id_test_session = {$test_session->id_test_session}
+				WHERE ups.id_user_paket_soal = {$user_paket_soal->id_user_paket_soal} 
 				GROUP BY ks.id_kelompok_soal, ks.nama_kelompok
 				ORDER BY ks.nama_kelompok")->result();
 		}
 		
-		return $test_session_set;
+		return $user_paket_soal_set;
 	}
 }

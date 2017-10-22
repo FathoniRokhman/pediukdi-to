@@ -18,10 +18,6 @@ class Test_guest extends USER_Controller
 		parent::__construct();
 		
 		$this->load->driver('cache');
-		
-		$this->load->model('user_model');
-		$this->load->model('setting_model');
-		$this->load->model('soal_model');
 	}
 	
 	function pre_start()

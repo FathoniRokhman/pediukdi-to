@@ -2,6 +2,7 @@
 
 /**
  * @author Fathoni <m.fathoni@mail.com>
+ * @property Form_soal_model $form_soal_model
  * @property Soal_model $soal_model
  */
 class Form_soal extends ADMIN_Controller
@@ -10,6 +11,7 @@ class Form_soal extends ADMIN_Controller
 	{
 		parent::__construct();
 		
+		$this->load->model('form_soal_model');
 		$this->load->model('soal_model');
 	}
 	
@@ -25,7 +27,7 @@ class Form_soal extends ADMIN_Controller
 	{
 		if ($this->input->method() == 'post')
 		{
-			$this->soal_model->add_form_soal();
+			$this->form_soal_model->add();
 			
 			$this->session->set_flashdata('inserted', TRUE);
 			
@@ -39,7 +41,7 @@ class Form_soal extends ADMIN_Controller
 	{
 		if ($this->input->method() == 'post')
 		{
-			$result = $this->soal_model->update_form_soal($id_form_soal);
+			$result = $this->form_soal_model->update($id_form_soal);
 			
 			if ($result)
 			{
@@ -49,7 +51,8 @@ class Form_soal extends ADMIN_Controller
 			}
 		}
 		
-		$form_soal = $this->soal_model->get_form_soal((int)$id_form_soal);
+		$form_soal = $this->form_soal_model->get_single($id_form_soal);
+		
 		$this->smarty->assignByRef('form_soal', $form_soal);
 		
 		$this->smarty->display();
@@ -59,7 +62,7 @@ class Form_soal extends ADMIN_Controller
 	{
 		if ($this->input->method() == 'post')
 		{
-			$this->soal_model->delete_form_soal($id_form_soal);
+			$this->form_soal_model->delete($id_form_soal);
 			
 			redirect('form-soal/index');
 		}

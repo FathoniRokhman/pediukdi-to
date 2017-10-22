@@ -1,6 +1,6 @@
 {extends file='../layout.tpl'}
 {block name='head'}
-	<link href="{site_url('../assets/css/datatables.min.css')}" rel="stylesheet" />
+	<link href="{site_url('../assets/DataTables/datatables.min.css')}" rel="stylesheet" />
 {/block}
 {block name='content'}
 	<h2 class="page-header">Daftar Video E-learning</h2>
@@ -83,7 +83,7 @@
 	</div>
 {/block}
 {block name='footer-script'}
-	<script src="{site_url('../assets/js/datatables.min.js')}"></script>
+	<script src="{site_url('../assets/DataTables/datatables.min.js')}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 

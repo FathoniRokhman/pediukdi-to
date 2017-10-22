@@ -20,12 +20,12 @@
 	
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="page-header">Data Tes</h1>
+			<h1 class="page-header">Periode {$user_paket->periode_paket->periode->nama_periode}</h1>
 			
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th>Tanggal Tes</th>
+						<th>Tanggal Mulai Tes</th>
 						<th>Soal</th>
 						<th>Status</th>
 						<th>Nilai Batas</th>
@@ -38,15 +38,17 @@
 					</tr>
 				</thead>
 				<tbody>
-					{foreach $data_set as $data}
+					{foreach $user_paket->user_paket_soal_set as $data}
 						<tr>
-							<td>{$data->tanggal_test|date_format:"%d %B %Y"}</td>
+							<td>{$data->tgl_mulai_display}</td>
 							<td>{$data->nama_form}</td>
 							<td>
-								{if $data->is_finished == '1'}
-									<span class="label label-success">Sudah Selesai</span>
-								{elseif $data->is_finished == '0'}
-									<span class="label label-warning">Sedang Dikerjakan</span>
+								{if $data->start_time != ''}
+									{if $data->is_finished == '1'}
+										<span class="label label-success">Sudah Selesai</span>
+									{elseif $data->is_finished == '0'}
+										<span class="label label-warning">Sedang Dikerjakan</span>
+									{/if}
 								{else}
 									<span class="label label-default">Belum</span>
 								{/if}

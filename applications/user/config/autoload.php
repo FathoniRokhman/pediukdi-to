@@ -132,4 +132,17 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array();
+$autoload['model'] = array(
+	'elearning_model',
+	'periode_model',
+	'periode_paket_model',
+	'periode_soal_model',
+	'report_model',
+	'setting_model',
+	'soal_model',
+	'test_session_model',
+	'user_model',
+	'user_paket_model',
+	'user_paket_soal_model',
+	'jawaban_user_model'
+);

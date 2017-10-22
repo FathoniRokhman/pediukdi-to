@@ -22,13 +22,13 @@
 				</div>
 			</div>
 
-		{if isset($pembayaran_aktif)}
+		{if isset($user_paket)}
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title">Informasi</h3>
 				</div>
 				<div class="panel-body">
-					<p>Anda telah terdaftar untuk mengikuti tes online PEDI-UKDI yang akan diselenggarakan pada tanggal <strong>{$jadwal_test->tanggal_test|date_format:"%d %B %Y"}</strong>. 
+					<p>Anda telah terdaftar untuk mengikuti tes online PEDI-UKDI yang akan diselenggarakan pada periode <strong>{$user_paket->periode_paket->periode->nama_periode}</strong>. 
 						Anda diperbolehkan memulai pengerjaan soal jam berapa saja asal masih dalam tanggal tersebut. 
 						Pastikan waktu untuk memulai pengerjaan tidak melebihi batas tanggal tes.</p>
 					<p><a class="btn btn-default" href="{site_url('test/pre_start')}">Klik disini untuk memulai pengerjaan soal</a></p>

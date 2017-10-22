@@ -1,10 +1,14 @@
 {extends file='../layout.tpl'}
 {block name='head'}
-	<link href="{site_url('../assets/css/datatables.min.css')}" rel="stylesheet" />
+	<link href="{site_url('../assets/DataTables/datatables.min.css')}" rel="stylesheet" />
+	<style>
+		#table thead tr th:nth-child(3), #table tbody tr td:nth-child(3),
+		#table thead tr th:nth-child(6), #table tbody tr td:nth-child(6) { text-align: center; }
+	</style>
 {/block}
 {block name='content'}
 	<h2 class="page-header">Daftar User</h2>
-	<table id="tableUser" class="table table-bordered table-condensed" style="display: none">
+	<table id="table" class="table table-bordered table-condensed">
 		<thead>
 			<tr>
 				<th>Nama</th>
@@ -16,39 +20,36 @@
 				<th></th>
 			</tr>
 		</thead>
-		<tbody>
-			{foreach $data_set as $data}
-				<tr>
-					<td>{$data->nama}</td>
-					<td>{$data->institusi}</td>
-					<td>{$data->last_rotasi_klinik}</td>
-					<td>{$data->no_hp}</td>
-					<td>{$data->email}</td>
-					<td>{if $data->is_verified == 1}<span class="glyphicon glyphicon-ok-circle" aria-hidden="true" title="Verified"></span>{/if}</td>
-					<td class="text-right">
-						<a href="{site_url('user/add_pembayaran/')}{$data->id_user}" class="btn btn-xs btn-success">Tambah Pembayaran Tes</a>
-					</td>
-				</tr>
-			{foreachelse}
-				<tr>
-					<td colspan="7">Tidak ada data ditampilkan</td>
-				</tr>
-			{/foreach}
-		</tbody>
 	</table>
 {/block}
 {block name='footer-script'}
-	<script src="{site_url('../assets/js/datatables.min.js')}"></script>
+	<script src="{site_url('../assets/DataTables/datatables.min.js')}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			{if count($data_set) > 0}
-			$('#tableUser').DataTable({
-				columnDefs: [
-					{ orderable: false, targets: [-1] }
-				]
+			$('#table').DataTable({
+				ajax: '{site_url('user/index-data')}',
+				columns: [
+					{ data: 'nama' },
+					{ data: 'institusi' },
+					{ data: 'last_rotasi_klinik' },
+					{ data: 'no_hp' },
+					{ data: 'email' },
+					{ data: function(row, type, set, meta) {
+							if (row.is_verified === '1') {
+								return '<span class="glyphicon glyphicon-ok-circle" aria-hidden="true" title="Verified"></span>';
+							}
+							else
+								return '';
+						} 
+					},
+					{ data: function(row, type, set, meta) {
+							return '';
+							// return '<a href="{site_url('user/add_pembayaran/')}'+row.id_user+'" class="btn btn-xs btn-success">Tambah Pembayaran Tes</a>';
+						} 
+					}
+				],
+				order: []
 			});
-			{/if}
-			$('#tableUser').show('fast');
 		});
 	</script>
 {/block}

@@ -3,9 +3,11 @@
 /**
  * @author Fathoni <m.fathoni@mail.com>
  * @property Pembayaran_model $pembayaran_model
- * @property Jadwal_model $jadwal_model Description
+ * @property Jadwal_model $jadwal_model
  * @property User_model $user_model
+ * @property User_paket_model $user_paket_model
  * @property Elearning_model $elearning_model
+ * @property Test_session_model $test_session_model
  */
 class Home extends USER_Controller
 {
@@ -14,11 +16,6 @@ class Home extends USER_Controller
 		parent::__construct();
 		
 		$this->check_credentials();
-		
-		$this->load->model('pembayaran_model');
-		$this->load->model('jadwal_model');
-		$this->load->model('user_model');
-		$this->load->model('elearning_model');
 	}
 	
 	function index()
@@ -27,20 +24,21 @@ class Home extends USER_Controller
 		setlocale(LC_TIME, 'id_ID');
 		
 		$user = $this->session->userdata('user');
+				
+		// Ambil paket user aktif
+		$user_paket = $this->user_paket_model->get_active($user->id_user);
 		
-		// Ambil Pembayaran Aktif
-		$pembayaran_aktif = $this->pembayaran_model->get_pembayaran_aktif($user->id_user);
-		
-		if ($pembayaran_aktif != NULL)
-		{
-			$this->smarty->assign('pembayaran_aktif', $pembayaran_aktif);
+		if ($user_paket != NULL)
+		{	
+			$user_paket->periode_paket = $this->periode_paket_model->get_single($user_paket->id_periode_paket);
+			$user_paket->periode_paket->periode = $this->periode_model->get_single($user_paket->periode_paket->id_periode);
+			$this->smarty->assign('user_paket', $user_paket);
 			
-			$jadwal_test = $this->jadwal_model->get_jadwal($pembayaran_aktif->id_jadwal_test);
-			
-			$this->smarty->assign('jadwal_test', $jadwal_test);
+			// $jadwal_test = $this->jadwal_model->get_jadwal($pembayaran_aktif->id_jadwal_test);
+			// $this->smarty->assign('jadwal_test', $jadwal_test);
 		}
 		
-		$test_session = $this->user_model->get_test_session($user->id_user);
+		$test_session = $this->test_session_model->get_active_session($user->id_user);
 		
 		// Jika masih punya session langsung redirect ke 
 		if ($test_session)

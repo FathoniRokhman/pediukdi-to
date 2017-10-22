@@ -12,45 +12,19 @@ class Soal_model extends CI_Model
 		$this->query = $this->db->order_by(1)->get('form_soal');
 		return $this->query->result();
 	}
-
-	function get_form_soal($id_form_soal)
-	{
-		return $this->db->get_where('form_soal', array('id_form_soal' => $id_form_soal), 1)->first_row();
-	}
-
-	function add_form_soal()
-	{
-		$form_soal = new stdClass();
-		$form_soal->nama_form = $this->input->post('nama_form');
-		$form_soal->nilai_kkm = $this->input->post('nilai_kkm');
-		$form_soal->waktu_pengerjaan = $this->input->post('waktu_pengerjaan');
-		$form_soal->created = date('Y-m-d H:i:s');
-
-		return $this->db->insert('form_soal', $form_soal);
-	}
-
-	function update_form_soal($id_form_soal)
-	{
-		$form_soal = new stdClass();
-		$form_soal->nama_form = $this->input->post('nama_form');
-		$form_soal->nilai_kkm = $this->input->post('nilai_kkm');
-		$form_soal->waktu_pengerjaan = $this->input->post('waktu_pengerjaan');
-		$form_soal->updated = date('Y-m-d H:i:s');
-
-		return $this->db->update('form_soal', $form_soal, array('id_form_soal' => $id_form_soal));
-	}
-
-	function delete_form_soal($id_form_soal)
-	{
-		$this->db->trans_start();
-
-		// Hapus Soal
-		$this->db->delete('soal', array('id_form_soal' => $id_form_soal));
-
-		// Hapus Form Soal
-		$this->db->delete('form_soal', array('id_form_soal' => $id_form_soal));
-
-		return $this->db->trans_complete();
+	
+	function list_form_soal_not_in_periode($id_periode, $id_form_soal_selected = null)
+	{	
+		$sql =
+			"select * from form_soal
+			where id_form_soal not in (select id_form_soal from periode_soal where id_periode = ?) ";
+			
+		if ($id_form_soal_selected != null)
+			$sql .= "or id_form_soal = {$id_form_soal_selected} ";
+			
+		$sql .= "order by nama_form";
+		
+		return $this->db->query($sql, array($id_periode))->result();
 	}
 
 	function list_soal($id_form_soal)

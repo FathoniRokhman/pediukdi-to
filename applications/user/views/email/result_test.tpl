@@ -46,10 +46,10 @@
 	</head>
 	<body>
 		<div id="container">
-			<h2>Selamat {$test_session_set[0]->nama}, Anda telah menyelesaikan Coba Soal</h2>
-			<p>Berikut hasil pekerjaan anda untuk soal {$test_session_set[0]->form_soal->nama_form} :</p>
-			{foreach $test_session_set as $test_session}
-			<p style="font-size: 200%">Skor : {$test_session->form_soal->skor_akhir + 0}</p>
+			<h2>Selamat {$user_paket_soal_set[0]->nama}, Anda telah menyelesaikan Coba Soal</h2>
+			<p>Berikut hasil pekerjaan anda untuk soal {$user_paket_soal_set[0]->form_soal->nama_form} :</p>
+			{foreach $user_paket_soal_set as $user_paket_soal}
+			<p style="font-size: 200%">Skor : {$user_paket_soal->form_soal->skor_akhir + 0}</p>
 			<table>
 				<thead>
 					<tr>
@@ -60,19 +60,19 @@
 				<tbody>
 					<tr>
 						<td>Jumlah Soal</td>
-						<td>{$test_session->form_soal->jumlah_soal}</td>
+						<td>{$user_paket_soal->form_soal->jumlah_soal}</td>
 					</tr>
 					<tr>
 						<td>Dijawab</td>
-						<td>{$test_session->form_soal->jumlah_dijawab}</td>
+						<td>{$user_paket_soal->form_soal->jumlah_dijawab}</td>
 					</tr>
 					<tr>
 						<td>Dikosongi</td>
-						<td>{$test_session->form_soal->jumlah_soal - $test_session->form_soal->jumlah_dijawab}</td>
+						<td>{$user_paket_soal->form_soal->jumlah_soal - $user_paket_soal->form_soal->jumlah_dijawab}</td>
 					</tr>
 					<tr>
 						<td>Ragu</td>
-						<td>{$test_session->form_soal->jumlah_ragu}</td>
+						<td>{$user_paket_soal->form_soal->jumlah_ragu}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -88,7 +88,7 @@
 				<tbody>
 					{$jumlah_benar = 0}
 					{$jumlah_salah = 0}
-					{foreach $test_session->kelompok_soal_set as $kelompok_soal}
+					{foreach $user_paket_soal->kelompok_soal_set as $kelompok_soal}
 						{$jumlah_benar = $jumlah_benar + $kelompok_soal->jumlah_benar}
 						{$jumlah_salah = $jumlah_salah + $kelompok_soal->jumlah_salah}
 						<tr>

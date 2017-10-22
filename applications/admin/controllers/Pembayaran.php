@@ -6,6 +6,7 @@
  * @property Jadwal_model $jadwal_model
  * @property User_model $user_model
  * @property Soal_model $soal_model
+ * @property CI_DB_driver $db
  */
 class Pembayaran extends ADMIN_Controller
 {
@@ -16,22 +17,47 @@ class Pembayaran extends ADMIN_Controller
 		$this->load->model('pembayaran_model');
 		$this->load->model('jadwal_model');
 		$this->load->model('user_model');
+		$this->load->model('form_soal_model');
 		$this->load->model('soal_model');
+		
+		setlocale(LC_TIME, 'id_ID');
 	}
 	
 	function index()
 	{
 		$data_set = $this->pembayaran_model->list_pembayaran();
-		$this->smarty->assignByRef('data_set', $data_set);
+		// $this->smarty->assignByRef('data_set', $data_set);
 		
 		$this->smarty->display();
 	}
 	
-	function delete($id_pembayaran)
+	/**
+	 * Data source for /pembayaran/index
+	 */
+	function index_data()
 	{
-		$this->pembayaran_model->delete($id_pembayaran);
+		$data_set = $this->pembayaran_model->list_pembayaran();
 		
-		redirect('pembayaran');
+		foreach ($data_set as &$row)
+		{
+			$row->tanggal_test_display = strftime('%d %B %Y', strtotime($row->tanggal_test));
+			$row->tanggal_bayar_display = strftime('%d %B %Y', strtotime($row->tanggal_bayar));
+		}
+		
+		echo json_encode(array('data' => $data_set));
+	}
+	
+	function delete_multi()
+	{
+		if ($this->input->method() == 'post')
+		{
+			$id_pembayaran_set = $this->input->post('id_pembayaran_set');
+			
+			foreach ($id_pembayaran_set as $id_pembayaran)
+				$this->pembayaran_model->delete($id_pembayaran);
+			
+			echo '1';
+		}
 	}
 	
 	function add_multi($mode = 'pilih-jadwal')
@@ -58,7 +84,7 @@ class Pembayaran extends ADMIN_Controller
 			$id_user = $this->input->post('iu');	// array
 			
 			$jadwal_test = $this->jadwal_model->get_jadwal($id_jadwal_test);
-			$jadwal_test->form_soal = $this->soal_model->get_form_soal($jadwal_test->id_form_soal);
+			$jadwal_test->form_soal = $this->form_soal_model->get_single($jadwal_test->id_form_soal);
 			$this->smarty->assign('jadwal_test', $jadwal_test);
 			
 			$data_set = $this->user_model->list_user_by_id($id_user);

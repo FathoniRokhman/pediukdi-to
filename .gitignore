@@ -23,6 +23,8 @@ applications/admin/logs/
 applications/user/logs/
 applications/shared/config/database.php
 
+sessions/
+
 # Database Dump
 /db-dump/
 !/db-dump/db.sql

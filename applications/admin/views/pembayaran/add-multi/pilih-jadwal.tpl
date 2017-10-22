@@ -1,6 +1,6 @@
 {extends file='../../layout.tpl'}
 {block name='head'}
-	<link href="{site_url('../assets/css/datatables.min.css')}" rel="stylesheet" />
+	<link href="{site_url('../assets/DataTables/datatables.min.css')}" rel="stylesheet" />
 	<style>
 		.table tbody tr td:last-child {
 			text-align: right;
@@ -48,7 +48,7 @@
 	</form>
 {/block}
 {block name='footer-script'}
-	<script src="{site_url('../assets/js/datatables.min.js')}"></script>
+	<script src="{site_url('../assets/DataTables/datatables.min.js')}"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			{if count($data_set) > 0}
