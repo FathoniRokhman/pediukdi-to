@@ -30,7 +30,7 @@ class Migration_Alter_db_1 extends CI_Migration
 		foreach (array_reverse($table_set) as $table)
 		{
 			echo "Drop table {$table} ... ";
-			$this->dbforge->drop_table($table);
+			$this->dbforge->drop_table($table, true);
 			echo "OK<br/>";
 		}
 	}
