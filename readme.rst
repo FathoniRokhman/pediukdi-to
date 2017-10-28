@@ -5,19 +5,16 @@ Tryout PEDIUKDI
 Aplikasi tryout Pediukdi merupakan aplikasi untuk test soal secara online. Aplikasi ini digunakan oleh bimbingan belajar
 pediukdi (http://www.pediukdi.com).
 
-
-**************************
-Features Roadmap
-**************************
-
-- Tambah fitur untuk video elearning
-
 **************************
 Changelog and New Features
 **************************
 
-Versi awal :
+Versi v1.0 :
+- Fitur penwaran periode
 
+Versi awal (v1.0-alpha) :
+
+- Tambah fitur untuk video elearning
 - Manajemen Soal
 - Soal Uji coba
 - Upload gambar pada soal
