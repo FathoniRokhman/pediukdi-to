@@ -93,7 +93,7 @@ class Test extends USER_Controller
 				$user_paket_soal->start_time = date('Y-m-d H:i:s');
 				$user_paket_soal->is_finished = 0;
 			}
-			
+				
 			$this->user_paket_soal_model->update($id_user_paket_soal, $user_paket_soal);
 			
 			// Menuju halaman pengerjaan soal

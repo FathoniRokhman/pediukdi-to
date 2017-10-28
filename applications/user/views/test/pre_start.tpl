@@ -20,7 +20,7 @@
 						yang stabil ketika mengerjakan agar tidak terputus di tengah jalan.</strong></p>
 					<p>Informasi hasil tes bisa diketahui sesaat setelah test sudah selesai anda kerjakan.</p>
 					{foreach $user_paket_soal_set as $user_paket_soal}
-						{if strtotime($user_paket_soal->tgl_mulai) < time()}
+						{if strtotime($user_paket_soal->tgl_mulai) < time() and $user_paket_soal->is_finished == 0}
 						<form action="{site_url('test/start-session')}" method="post">
 							<input type="hidden" name="id_user_paket_soal" value="{$user_paket_soal->id_user_paket_soal}" />
 							<button class="btn btn-primary">{$user_paket_soal->nama_form} (Start {$user_paket_soal->tgl_mulai|date_format:"%d %B %Y"})
